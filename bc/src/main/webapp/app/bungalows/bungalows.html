@@ -1,0 +1,76 @@
+<script src="assets/js/custom.js"></script>
+<section class="container" style="background-color:white">
+        <div role="main" class="main">
+            <section class="page-header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1>Bungalows</h1>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+		<fieldset>
+            <div class="col-md-12" style="background-color:#eee; padding:20px; border-radius: 10px; margin-bottom:10px;">
+	            <div class="col-md-12">
+		            <div class="col-md-3">
+		                <!-- <td><a class="btn btn-primary" ng-href="#bungalows/create">
+		                <span class="glyphicon glyphicon-plus"></span>Añadir bungalow</a></td> -->
+	                    <div class="panel panel-primary table-responsive" style="padding-left:0px; padding-right:0px;">
+	                        <table class="table table-striped" id="bungalows">
+			                    <thead>
+			                        <tr>
+			                            <th>Número</th>
+			                            <th>Tipo</th>
+			                        </tr>
+			                    </thead>
+			                    <tbody ng-init="vm.listBungalows()">
+			                        <tr ng-repeat="bungalow in vm.bungalows">
+			                            <td>{{bungalow.number}}</td>
+			                            <td>{{bungalow.type.type}}</td>
+			                        </tr>
+			                    </tbody>
+	                        </table>  
+			                <div class="no-data" ng-if="vm.bungalows.length < 1">
+			                    <div class="panel-body"> No Bungalows Found </div>
+			                </div>
+	                    </div>   
+		            </div>
+		            <!-- Panel de resultados con búsqueda-->
+		            <div class="panel panel-primary table-responsive" style="padding-left:0px; padding-right:0px">
+		                <table class="table table-striped" id="mejorada">
+		                    <thead>
+		                        <tr>
+								    <th style="vertical-align:middle" rowspan="2">Tipo</th>
+								    <th colspan="5" scope="colgroup">Precio por noche (sin IGIC)</th>
+								    <th rowspan="2"></th>
+						        </tr>
+								<tr>
+		                            <th>15 Oct - 21 Dic</th>
+								    <th>22 Dic - 05 Ene</th>
+								    <th>06 Ene - 14 Abr</th>
+								    <th>15 Abr - 30 Jun</th>
+								    <th>01 Jul - 14 Oct</th>
+								</tr>
+		                    </thead>
+		                    <tbody ng-init="vm.listBungalowType(); vm.listBungalows()">
+		                        <tr ng-repeat="bungalowType in vm.bungalowType">
+		                            <td><b>{{bungalowType.type}}</b></td>
+		                            <td>{{bungalowType.octToDecPrice}}€</td>
+		                            <td>{{bungalowType.decToJanPrice}}€</td>
+		                            <td>{{bungalowType.janToAprPrice}}€</td>
+		                            <td>{{bungalowType.aprToJunPrice}}€</td>
+		                            <td>{{bungalowType.julToOctPrice}}€</td>
+		                           <td><a class="btn btn-primary btn-sm" ng-href="#bungalows/type/modify/{{bungalowType.id}}">Modificar</a></td>
+		                        </tr>
+		                    </tbody>
+		                </table>  
+		                <div class="no-data" ng-if="vm.bungalowType.length < 1">
+		                    <div class="panel-body"> No Bungalows' Type Found </div>
+		                </div>
+		            </div>
+	            </div>
+            </div>
+        </fieldset>
+</section>

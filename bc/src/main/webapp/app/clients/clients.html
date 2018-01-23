@@ -1,0 +1,196 @@
+<script src="assets/js/custom.js"></script>
+<section class="container" style="background-color:white">
+    <div role="main" class="main">
+        <section class="page-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>Listado de clientes</h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <fieldset>
+        <div class="col-md-12" style="background-color:#eee; padding:20px; border-radius: 10px; margin-bottom:10px;">
+            <div class="col-md-12">
+                <div class="col-md-3" style="padding:10px;">
+                    <td><a class="btn btn-primary" ng-href="#clients/create">
+                       <span class="glyphicon glyphicon-plus"></span> Alta cliente</a>
+                    </td> 
+                </div>
+                <!-- Buscador -->
+                <div class="col-md-9">
+	                <div class="panel panel-primary row" style="padding:10px;"> 
+	                   <div class="row">
+	                        <div class="col-md-4 form-group">
+		                        <label for="searchBy">Buscar cliente por:</label>
+	                            <select class="form-control" name="searchBy" ng-model="vm.searchBy" required>
+	                                <option value="" disabled hidden>Seleccione una opción</option>
+	                                <option value="name">Nombre</option>
+	                                <option value="phone">Teléfono</option>
+	                                <option value="email">Email</option>
+	                                <option value="dni">Dni</option>
+	                            </select>
+	                        </div>
+	                        <div class="form-group col-md-4">
+	                            <label for="searchData">Datos:</label>
+	                            <input ng-model="vm.searchData" id="searchData" placeholder="Introduzca los datos" class="form-control" required>
+	                        </div>
+	                        <div class="form-group col-md-4"><br>
+		                        <button class="form-group btn btn-warning" ng-click="vm.search()">
+		                            <span class="glyphicon glyphicon-search"></span> Buscar
+		                        </button> 
+		                        <button ng-if="vm.data2.length != null" class="form-group btn btn-danger" ng-click="vm.data2 = null">
+                                    Cerrar
+                                </button> 
+	                        </div>
+	                    </div> <!-- row -->
+                        <div ng-if="vm.data2.length > 0" class="table-responsive">
+                            <table class="table table-striped responsive" id="mejorada">
+			                    <thead>
+			                        <tr>
+			                            <th>Nombre</th>
+			                            <th>Apellido/s</th>
+			                            <th>DNI</th>
+			                            <th>Teléfono</th>
+			                            <th>Email</th>
+			                            <th></th>
+			                        </tr>
+			                    </thead>
+			                    <tbody>
+			                        <tr ng-repeat="client in vm.data2">
+			                            <td>{{client.name}}</td>
+			                            <td>{{client.surname}}</td>
+			                            <td>{{client.dni}}</td>
+			                            <td>{{client.phone}}</td>
+			                            <td>{{client.email}}</td>
+			                           <td>
+				                           <a class="btn btn-primary btn-xs" ng-if="client.name != 'Cliente'" ng-href="#clients/modify/{{client.id}}">Modificar</a>
+				                           <a class="btn btn-info btn-xs" ng-click="vm.client_id = client.id; vm.client=client; vm.getBookingsByClient()" data-toggle="modal" data-target="#myModal">Ver reservas</a> 
+	                                       <a class="btn btn-success btn-xs" ng-href="#bookings/create/{{client.id}}"><span class="glyphicon glyphicon-plus-sign"></span> Reserva</a>
+                                       </td>    
+			                        </tr>
+			                    </tbody>
+			                </table>  
+                        </div>
+                        <div class="no-data" ng-if="vm.data2.length === 0">
+                           <div class="panel-body"> No se encontró ningún cliente con esos datos </div>
+                        </div>
+                    </div>
+                </div><!-- div md-9 -->
+            </div><!-- col-md-12 -->
+               
+            <!-- Panel de resultados con todos los clientes-->
+            <div class="panel panel-primary table-responsive" style="padding-left:0px; padding-right:0px">
+                <table class="table table-striped " id="mejorada">
+                    <thead>
+                        <tr>
+                            <th class="clickable" ng-click="vm.sortBy('name')">Nombre
+                            <span class="sortorder" ng-show="vm.propertyName === 'name'" ng-class="{reverse: vm.reverse}"></span></th>
+                            <th class="clickable" ng-click="vm.sortBy('surname')">Apellido/s
+                            <span class="sortorder" ng-show="vm.propertyName === 'surname'" ng-class="{reverse: vm.reverse}"></span></th>
+                            <th class="clickable" ng-click="vm.sortBy('dni')">DNI
+                            <span class="sortorder" ng-show="vm.propertyName === 'dni'" ng-class="{reverse: vm.reverse}"></span></th>
+                            <th class="clickable" ng-click="vm.sortBy('phone')">Teléfono
+                            <span class="sortorder" ng-show="vm.propertyName === 'phone'" ng-class="{reverse: vm.reverse}"></span></th>
+                            <th class="clickable" ng-click="vm.sortBy('email')">Email
+                            <span class="sortorder" ng-show="vm.propertyName === 'email'" ng-class="{reverse: vm.reverse}"></span></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody ng-init="vm.initList()">
+                        <tr ng-repeat="client in vm.data | orderBy:vm.propertyName:vm.reverse">
+                            <td>{{client.name}}</td>
+                            <td>{{client.surname}}</td>
+                            <td>{{client.dni}}</td>
+                            <td>{{client.phone}}</td>
+                            <td>{{client.email}}</td>
+                            <td style="text-align:right">
+                            <a class="btn btn-primary btn-sm" ng-if="client.name != 'Cliente'" ng-href="#clients/modify/{{client.id}}">Modificar</a>
+                            <a class="btn btn-info btn-sm" ng-click="vm.client_id = client.id; vm.client=client; vm.getBookingsByClient()" data-toggle="modal" data-target="#myModal">Ver reservas</a> 
+                            <a class="btn btn-success btn-sm" ng-href="#bookings/create/{{client.id}}"><span class="glyphicon glyphicon-plus-sign"></span> Reserva</a></td>    
+                        </tr>         
+                    </tbody>
+                </table>
+                <div class="no-data" ng-if="vm.data.length < 1">
+                    <div class="panel-body"> No hay clientes </div>
+                </div>
+            </div>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Reservas de <b>{{vm.client.name}} {{vm.client.surname}} </b></h4>
+                        </div>
+                        <div class="modal-body">
+	                        <div class="panel panel-primary table-responsive" style="padding-left:0px; padding-right:0px">
+		                        <table class="table table-striped " id="mejorada">
+		                            <thead>
+				                        <tr>
+				                            <th>Bungalow</th>
+				                            <th>Entrada</th>
+				                            <th>Salida</th>
+				                            <th>Precio Total</th>
+				                            <th></th>
+				                        </tr>
+		                            </thead>
+		                            <tbody>
+				                        <tr ng-repeat="booking in vm.bookingsByClient">
+				                            <td>{{booking.bungalow.number}}</td>
+				                            <td>{{booking.arrivalDate | date:'dd/MM/yyyy' }}</td>
+				                            <td>{{booking.departureDate | date:'dd/MM/yyyy' }}</td>
+				                            <td>{{booking.totalPrice}}€</td>
+				                            <td>
+				                                <a ng-if="booking.departureDate > vm.currentDate" class="btn btn-primary btn-sm" ng-href="#bookings/modify/{{booking.id}}">Modificar</a>                                                
+				                                <a ng-if="booking.departureDate > vm.currentDate" class="btn btn-danger btn-sm" ng-click="vm.booking_id = booking.id; vm.booking2=booking;" data-toggle="modal" data-target="#cancelarModal">
+                                                <span class="glyphicon glyphicon-remove"></span>Cancelar</a> 
+                                            </td>
+				                        </tr>         
+		                            </tbody>
+		                        </table>
+		                        <div class="no-data" ng-if="vm.bookingsByClient < 1">
+                                    <div class="panel-body"> Este cliente no tiene reservas asociadas. </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-warning" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- Fin modal -->
+            <!-- Modal Cancelar-->
+            <div class="modal fade" id="cancelarModal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Cancelar reserva de <b>{{vm.booking2.client.name}} {{vm.booking2.client.surname}} </b></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="panel panel-primary table-responsive" style="padding-left:0px; padding-right:0px">
+                                <h4 style="text-align:center">¿Confirma que quiere eliminar la siguiente reserva?</h4>
+                                <ul>
+                                    <li><b>Cliente:</b> {{vm.booking2.client.name}} {{vm.booking2.client.surname}} </li>
+                                    <li><b>Entrada:</b> {{vm.booking2.arrivalDate | date:'dd/MM/yyyy' }} </li>
+                                    <li><b>Salida:</b> {{vm.booking2.departureDate | date:'dd/MM/yyyy' }} </li>
+                                    <li><b>Bungalow:</b> {{vm.booking2.bungalow.number}} - Tipo {{vm.booking2.bungalow.type.type}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-danger btn-sm" ng-click="vm.deleteBooking()" data-dismiss="modal">Sí, eliminar</a> 
+                            <button type="button" class="btn btn-warning" data-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- Fin modal -->
+        </div>
+    </fieldset>
+</section>

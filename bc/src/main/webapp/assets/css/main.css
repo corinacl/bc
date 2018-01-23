@@ -1,0 +1,15 @@
+.clickable {
+	cursor: pointer;
+}
+
+.center {
+	text-align: center;
+}
+
+.panel-heading .panel-title {
+	padding-top: 7.5px;
+}
+
+.m-md {
+	margin: 10px;
+}

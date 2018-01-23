@@ -1,0 +1,165 @@
+<!-- Datepicker -->    
+<script src="assets/js/datepicker.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<script src="assets/js/custom.js"></script>
+
+<section class="container" style="background-color:white">
+        <div role="main" class="main">
+            <section class="page-header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1>Reservas</h1>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+		<fieldset>
+            <div class="col-md-12" style="background-color:#eee; padding:20px; border-radius: 10px; margin-bottom:10px;">
+	            <div class="col-md-12">
+		            <div class="col-md-2" style="padding:10px;">
+		                <td><a class="btn btn-primary" ng-href="#bookings/create">
+		                <span class="glyphicon glyphicon-plus"></span>Añadir reserva</a></td>
+		            </div>
+		            <!-- Buscador -->
+	                <div class="col-md-10">
+	                    <div class="panel panel-primary row" style="padding:10px;"> 
+	                        <div class="row">
+	                            <div class="col-md-3 form-group">
+	                                <label for="Arrival">Llegada <font color="red">*</font></label>
+	                                <input ng-model="vm.arrival" id="arrival" placeholder="Fecha de entrada" class="form-control">
+	                            </div>     
+	                            <div class="col-md-3 form-group">
+	                                <label for="Departure">Salida <font color="red">*</font></label>
+	                                <input ng-model="vm.departure" id="departure" placeholder="Fecha de salida" class="form-control">
+	                            </div>                      
+	                            <div class="form-group col-md-3">
+	                                <label for="searchData">Bungalow</label>
+	                                <input type="number" ng-model="vm.bungalow" id="bungalow" min="1" max="36" placeholder="Opcional" class="form-control">
+	                            </div>
+	                            <div class="form-group col-md-3"><br>
+	                                <button class="form-group btn btn-warning btn-sm" ng-click="vm.searchBookings()">
+	                                    <span class="glyphicon glyphicon-search"></span> Buscar
+	                                </button> 
+	                                <button ng-if="vm.resultBookings.length != null" class="form-group btn btn-danger btn-sm" ng-click="vm.resultBookings = null">
+	                                    Cerrar
+	                                </button> 
+	                            </div>
+	                        </div> <!-- row -->
+	                        <div ng-if="vm.resultBookings.length > 0" class="table-responsive">
+	                            <table class="table table-striped responsive" id="mejorada">
+	                                <thead>
+	                                    <tr>
+	                                        <th class="clickable" ng-click="vm.searchSortBy('bungalow.number')">Bungalow
+				                                <span class="sortorder" ng-show="vm.sortByProperty === 'bungalow.number'" ng-class="{reverse: vm.reverseSearch}"></span>
+				                            </th>
+				                            <th class="clickable" ng-click="vm.searchSortBy('client.name')">Cliente
+				                                <span class="sortorder" ng-show="vm.sortByProperty === 'client.name'" ng-class="{reverse: vm.reverseSearch}"></span>
+				                            </th>
+				                            <th class="clickable"  ng-click="vm.searchSortBy('arrivalDate')">Entrada
+				                                <span class="sortorder" ng-show="vm.sortByProperty === 'arrivalDate'" ng-class="{reverse: vm.reverseSearch}"></span>
+				                            </th>
+				                            <th class="clickable"  ng-click="vm.searchSortBy('departureDate')">Salida
+				                                <span class="sortorder" ng-show="vm.sortByProperty === 'departureDate'" ng-class="{reverse: vm.reverseSearch}"></span>
+				                            </th>
+				                            <th>Precio neto</th>
+				                            <th>Precio IGIC</th>
+				                            <th></th>
+	         
+	                                    </tr>
+	                                </thead>
+	                                <tbody>
+	                                    <tr ng-repeat="resBooking in vm.resultBookings | orderBy:vm.sortByProperty:vm.reverseSearch" >
+	                                        <td>{{resBooking.bungalow.number}}</td>
+	                                        <td>{{resBooking.client.name}} {{resBooking.client.surname}}</td>
+	                                        <td>{{resBooking.arrivalDate | date:'dd/MM/yyyy' }}</td>
+	                                        <td>{{resBooking.departureDate | date:'dd/MM/yyyy' }}</td>
+	                                        <td>{{resBooking.totalPrice | number}}€</td>
+	                                        <td>{{(resBooking.totalPrice * 0.07) + resBooking.totalPrice | number: 2 }}€</td>
+	                                       <td>
+				                               <a ng-if="resBooking.departureDate > vm.currentDate" class="btn btn-primary btn-xs" ng-href="#bookings/modify/{{resBooking.id}}">Modificar</a>
+				                               <a ng-if="resBooking.departureDate > vm.currentDate" class="btn btn-danger btn-xs" ng-click="vm.booking_id = resBooking.id; vm.booking2=resBooking;" data-toggle="modal" data-target="#cancelarModal">
+				                               <span class="glyphicon glyphicon-remove"></span>Eliminar</a> 
+				                           </td>
+	                                    </tr>
+	                                </tbody>
+	                            </table>
+	                        </div><!-- Fin si hay resultados -->
+	                        <div class="no-data" ng-if="vm.resultBookings.length <1">
+	                           <div class="panel-body"> No se encontró ninguna reserva. </div>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+            <!-- Panel de resultados con búsqueda-->
+            <div class="panel panel-primary table-responsive" style="padding-left:0px; padding-right:0px">
+                <table class="table table-striped" id="mejorada">
+                    <thead>
+                        <tr>
+                            <th class="clickable" ng-click="vm.sortBy('id')">ID
+                            <span class="sortorder" ng-show="vm.propertyName === 'id'" ng-class="{reverse: vm.reverse}"></span></th>
+                            <th class="clickable" ng-click="vm.sortBy('bungalow.number')">Bungalow
+                            <span class="sortorder" ng-show="vm.propertyName === 'bungalow.number'" ng-class="{reverse: vm.reverse}"></span></th>
+                            <th class="clickable" ng-click="vm.sortBy('client.name')">Cliente
+                            <span class="sortorder" ng-show="vm.propertyName === 'client.name'" ng-class="{reverse: vm.reverse}"></span></th>
+                            <th class="clickable"  ng-click="vm.sortBy('arrivalDate')">Entrada
+                            <span class="sortorder" ng-show="vm.propertyName === 'arrivalDate'" ng-class="{reverse: vm.reverse}"></span></th>
+                            <th class="clickable"  ng-click="vm.sortBy('departureDate')">Salida
+                            <span class="sortorder" ng-show="vm.propertyName === 'departureDate'" ng-class="{reverse: vm.reverse}"></span></th>
+                            <th>Precio neto</th>
+                            <th>Precio IGIC</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody ng-init="vm.initList()">
+                        <tr ng-repeat="booking in vm.bookings | orderBy:vm.propertyName:vm.reverse">
+                            <td>{{booking.id}}</td>
+                            <td>{{booking.bungalow.number}}</td>
+                            <td>{{booking.client.name}} {{booking.client.surname}}</td>
+                            <td>{{booking.arrivalDate | date:'dd/MM/yyyy' }}</td>
+                            <td>{{booking.departureDate | date:'dd/MM/yyyy' }}</td>
+                            <td>{{booking.totalPrice | number}}€</td>
+                            <td>{{(booking.totalPrice * 0.07) + booking.totalPrice | number: 2 }}€</td>
+                            <td>
+                                <a ng-if="booking.departureDate > vm.currentDate" class="btn btn-primary btn-sm" ng-href="#bookings/modify/{{booking.id}}">Modificar</a>
+                                <a ng-if="booking.departureDate > vm.currentDate" class="btn btn-danger btn-sm" ng-click="vm.booking_id = booking.id; vm.booking2=booking;" data-toggle="modal" data-target="#cancelarModal">
+                                <span class="glyphicon glyphicon-remove"></span>Eliminar</a> 
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>  
+                <div class="no-data" ng-if="vm.bookings.length < 0">
+                    <div class="panel-body"> No Bookings Found </div>
+                </div>
+            </div>
+            <!-- Modal -->
+            <div class="modal fade" id="cancelarModal" role="dialog">
+                <div class="modal-dialog">
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Cancelar reserva de <b>{{vm.booking2.client.name}} {{vm.booking2.client.surname}} </b></h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="panel panel-primary table-responsive" style="padding-left:0px; padding-right:0px">
+                                <h4 style="text-align:center">¿Confirma que quiere eliminar la siguiente reserva?</h4>
+                                <ul>
+                                    <li><b>Cliente:</b> {{vm.booking2.client.name}} {{vm.booking2.client.surname}} </li>
+                                    <li><b>Entrada:</b> {{vm.booking2.arrivalDate | date:'dd/MM/yyyy' }} </li>
+                                    <li><b>Salida:</b> {{vm.booking2.departureDate | date:'dd/MM/yyyy' }} </li>
+                                    <li><b>Bungalow:</b> {{vm.booking2.bungalow.number}} - Tipo {{vm.booking2.bungalow.type.type}}</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <a class="btn btn-danger btn-sm" ng-click="vm.deleteBooking()" data-dismiss="modal">Sí, eliminar</a> 
+                            <button type="button" class="btn btn-warning" data-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div><!-- Fin modal -->
+        </div>
+    </fieldset>
+</section>

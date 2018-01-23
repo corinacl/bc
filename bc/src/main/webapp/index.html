@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="pfm">
+<head>
+    <meta charset="utf-8">
+    <title>Gestor de reservas</title>
+    
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="assets/img/favicon.ico" type="image/x-icon" />
+
+    <!-- Mobile Metas -->
+    <!-- <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">  -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/alertify.css">
+    <link rel="stylesheet" href="assets/css/autocomplete.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script> 
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+    <script src="assets/js/autocomplete.js"></script>
+    <script src="assets/js/paging.js"></script>
+    <script src="assets/js/alertify.js"></script>
+    <script src="assets/js/angular-messages.js"></script>
+    <script src="assets/js/checklist.js"></script>
+
+     <!-- Theme Base, Components and Settings -->
+    <script src="assets/js/theme.js"></script>
+    <script src="assets/js/theme.init.js"></script>
+    <script src="assets/js/common.js"></script>
+    <script src="assets/js/custom.js"></script>
+   
+    <!-- Theme CSS -->
+    <link rel="stylesheet" href="assets/css/theme.css">
+    <link rel="stylesheet" href="assets/css/theme-elements.css">
+    <link rel="stylesheet" href="assets/css/custom.css">
+
+    <!-- Configuración -->
+    <script src="app/config.js"></script>
+    
+    <!-- Menu -->
+    <script src="app/menu/navController.js"></script>
+    
+    <!-- Login -->
+    <script src="app/login/LoginService.js"></script>
+    <script src="app/login/loginController.js"></script>
+    <script src="app/login/logout/logoutController.js"></script>
+    <script src="app/login/register/registrationController.js"></script>
+    
+     <!-- Clientes -->
+    <script src="app/clients/ClientsService.js"></script>
+    <script src="app/clients/clientsController.js"></script>
+    <script src="app/clients/create/createClientController.js"></script>
+    <script src="app/clients/modify/modifyClientController.js"></script>
+    <script src="app/clients/create/bookings/createBookingClientController.js"></script>
+    
+    <!-- Reservas -->
+    <script src="app/bookings/BookingsService.js"></script>
+    <script src="app/bookings/bookingsController.js"></script>
+    <script src="app/bookings/create/createBookingController.js"></script>
+    <script src="app/bookings/modify/modifyBookingController.js"></script>
+   
+    <!-- Planning -->
+    <script src="app/planning/PlanningService.js"></script>
+    <script src="app/planning/planningController.js"></script>
+    
+     <!-- Bungalows -->
+    <script src="app/bungalows/BungalowsService.js"></script>
+    <script src="app/bungalows/bungalowsController.js"></script>
+    <script src="app/bungalows/modify/modifyBungalowTypeController.js"></script>
+
+</head>
+
+<body>
+	<div ng-include="'app/menu/nav.html'"></div>
+    <main id='cuerpo'>
+        <div class="container" ng-view></div>
+    </main>
+</body>
+</html>

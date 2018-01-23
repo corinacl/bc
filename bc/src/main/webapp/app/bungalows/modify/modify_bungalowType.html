@@ -1,0 +1,66 @@
+<!-- Datepicker -->    
+<script src="assets/js/datepicker.js"></script>
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+<section class="container" style="background-color:white">
+    <div role="main" class="main">
+        <section class="page-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12" ng-init="vm.getBungalowTypeById()">
+                        <h1>Modificar precios de bungalow por temporada</h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <fieldset>
+        <div class="col-md-12" style="background-color:#eee; padding:20px; border-radius: 10px; margin-bottom:10px;">
+            <div class="col-md-12">
+	            <div class="panel panel-primary col-md-6 col-md-offset-3">
+	                <form class="form-horizontal" role="form" name="formBooking" ng-submit="vm.modifyBungalowType()">
+	                    <div style="margin:20px; text-align:center; color: black;">
+	                        <b>Bungalow Tipo {{vm.bungalowType.type}}</b>
+	                    </div>
+	                    <div class="form-group">
+	                        <label class="control-label col-sm-offset-1 col-sm-5" for="octToDecPrice"> 15 Octubre - 21 Diciembre </label>
+	                        <div class="col-md-3">
+                                <input type="text" class="form-control" placeholder={{vm.bungalowType.octToDecPrice}} ng-model='vm.bungalowType.octToDecPrice' required>
+                            </div>
+	                    </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-offset-1 col-sm-5" for="decToJanPrice"> 22 Diciembre - 05 Enero </label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" placeholder="{{vm.bungalowType.decToJanPrice}}" ng-model='vm.bungalowType.decToJanPrice' required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-offset-1 col-sm-5" for="janToAprPrice"> 06 Enero - 14 Abril </label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" placeholder={{vm.bungalowType.janToAprPrice}} ng-model='vm.bungalowType.janToAprPrice' required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-offset-1 col-sm-5" for="aprToJunPrice"> 15 Abril - 30 Junio </label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" placeholder={{vm.bungalowType.aprToJunPrice}} ng-model='vm.bungalowType.aprToJunPrice' required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-offset-1 col-sm-5" for="julToOctPrice"> 01 Julio - 14 Octubre </label>
+                            <div class="col-md-3">
+                                <input type="text" class="form-control" placeholder={{vm.bungalowType.julToOctPrice}} ng-model='vm.bungalowType.julToOctPrice' required>
+                            </div>
+                        </div>            
+			            <div class="form-group"> 
+		                    <div class="col-md-offset-3 col-md-10">
+		                        <input type="submit" class="btn btn-primary" value="Guardar cambios"> 
+		                         <a class="btn btn-danger" ng-href="#/bungalows">Volver</a>
+		                    </div>
+	                   </div> 
+	                </form>
+	              </div>
+            </div>
+        </div>
+    </fieldset>
+</section>

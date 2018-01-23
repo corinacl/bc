@@ -1,0 +1,44 @@
+<script src="assets/js/custom.js"></script>
+<section class="container" style="background-color:white">
+    <div role="main" class="main">
+        <section class="page-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>Login</h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <fieldset>
+        <div class="col-md-12" style="background-color:#eee; padding:20px; border-radius: 10px; margin-bottom:10px;">
+            <div class="col-md-12">
+				<div class="col-sm-6 col-md-6 col-sm-offset-3" style="padding:10px;">
+					<form class="form-horizontal">
+						<div class="form-group">
+							<label class="control-label label-id col-sm-3 col-md-3" for="username">Usuario:</label>
+							<div class='col-sm-9 col-md-9'>
+								<input type='text' class="form-control" name='username' ng-model='vm.username' required />
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="control-label label-id col-sm-3 col-md-3" for="password">Contraseña:</label>
+							<div class='col-sm-9 col-md-9'>
+								<input type='password' class="form-control" name='password' ng-model='vm.password' required />
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-sm-offset-5 col-sm-2">
+								<button class="btn btn-primary" ng-click="vm.login()">Acceder</button>
+							</div>
+						</div>
+						<div class="form-group">
+						   <label style="white-space:pre-wrap;" class="bg-danger col-sm-12" ng-show="vm.error" ng-bind='vm.response'></label>
+						</div>
+					</form>
+                </div>
+            </div>
+        </div>
+	</fieldset>
+</section>

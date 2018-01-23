@@ -1,0 +1,60 @@
+<section class="container" style="background-color:white">
+    <div role="main" class="main">
+        <section class="page-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h1>Añadir cliente</h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    <fieldset>
+        <div class="col-md-12" style="background-color:#eee; padding:20px; border-radius: 10px; margin-bottom:10px;">
+            <div class="col-md-12">
+            <div class="panel panel-primary col-md-8 col-md-offset-2">
+	           <form class="form-horizontal" role="form" name="formCreateClient" ng-submit="vm.createClient()">
+                  <div class="form-group" style="margin-top:20px;">
+                     <label class="control-label label-id col-md-4">Nombre <font color="red">*</font></label>
+                     <div class="col-md-6">
+			             <input type="text" class="form-control" ng-model='vm.client.name' required>
+			         </div>
+                    </div>
+			        <div class="form-group">
+			             <label class="control-label label-id col-md-4">Apellido/s <font color="red">*</font></label>
+                         <div class="col-md-6">
+			                 <input type="text" class="form-control" ng-model='vm.client.surname' required>
+			             </div>
+			        </div>
+		            <div class="form-group">
+                        <label class="control-label label-id col-md-4">DNI </label>
+                        <div class="col-md-6">
+                           <input type="text" class="form-control" ng-model='vm.client.dni' maxlength="15">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label label-id col-md-4">Teléfono </label>
+                        <div class="col-md-6">
+                           <input type="text" class="form-control" ng-model='vm.client.phone' maxlength="20">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label label-id col-md-4">Email </label>
+                        <div class="col-md-6">
+                           <input type="email" class="form-control" ng-model='vm.client.email' >
+                        </div>
+                    </div>
+                    <small> <small id="asterisco">* </small> Obligatorio </small> 
+                    <div class="form-group"> 
+                        <div class="col-sm-offset-4 col-sm-4">
+                            <input type="submit" class="btn btn-primary" value="Guardar"> 
+                            <a class="btn btn-danger" ng-href="#/clients">Volver</a>
+                        </div>
+                    </div> 
+			        </form>
+				 </div>
+            </div>
+        </div>
+    </fieldset>		 
+</section>

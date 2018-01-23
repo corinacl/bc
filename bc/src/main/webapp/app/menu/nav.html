@@ -1,0 +1,56 @@
+<header id="header" class="header-narrow" ng-controller="NavController as navCtrl" data-plugin-options="{'stickyEnabled': true, 'stickyEnableOnBoxed': true, 'stickyEnableOnMobile': true, 'stickyStartAt': 0, 'stickySetTop': '0'}">
+    <div class="header-body">
+        <div class="header-container container">
+            <div class="header-row">
+                <div class="header-column">
+                 <div class="header-logo">
+                     <a href="#/">
+                         <img alt="Logo" width="120" height="60" src="assets/img/logo_bc.png">
+                     </a>
+                 </div>
+             </div>
+             <div class="header-column">
+                 <div class="header-row">
+                     <div class="header-nav">
+                         <button class="btn header-btn-collapse-nav" data-toggle="collapse" data-target=".header-nav-main">
+                            <span class="glyphicon glyphicon-menu-hamburger"></span>
+                         </button>
+                            <div class="header-nav-main header-nav-main-effect-1 header-nav-main-sub-effect-1 collapse">
+                             <nav>
+                                 <ul class="nav nav-pills" id="mainNav">
+                                     <li ng-if="navCtrl.isLogged() && !navCtrl.isLoggedAuth()" ng-class="{active: navCtrl.isActive('/clients') || isActive('/clients/create')}">
+                                        <a href="#/clients">Clientes</a>
+                                     </li>
+                                     <li ng-if="navCtrl.isLogged() && navCtrl.isLoggedAdmin()" ng-class="{active: navCtrl.isActive('/register')}">
+                                        <a href="#/register">Registro</a>
+                                     </li> 
+                                     <li ng-if="navCtrl.isLogged() && navCtrl.isLoggedAdmin()" ng-class="{active: navCtrl.isActive('/bungalows')}">
+                                        <a href="#/bungalows">Bungalows</a>
+                                     </li>
+                                     <li ng-if="navCtrl.isLogged() && !navCtrl.isLoggedAuth()" ng-class="{active: navCtrl.isActive('/bookings')}">
+                                        <a href="#/bookings">Reservas</a>
+                                     </li> 
+                                     <li ng-if="navCtrl.isLogged()" ng-class="{active: navCtrl.isActive('/planning')}">
+                                        <a href="#/planning">Planning</a>
+                                     </li> 
+                                     <li ng-if="!navCtrl.isLogged()" ng-class="{active: navCtrl.isActive('/login')}">
+                                        <a href="#/login"><i class="glyphicon glyphicon-log-in"></i> Login</a>
+                                     </li> 
+                                     <li ng-if="navCtrl.isLogged()">
+                                        <a href="#/login" ng-click="navCtrl.logout()"><i class="glyphicon glyphicon-log-out"></i> Logout</a>
+                                     </li>  
+                                 </ul>
+                             </nav>
+                         </div>
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<div class="container">         
+    <div class="row">
+        <hr class="tall" style="margin-top:60px">
+    </div>
+</div>
