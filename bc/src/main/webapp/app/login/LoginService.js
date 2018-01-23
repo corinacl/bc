@@ -16,7 +16,7 @@ bc.service('LoginService', ['$http', '$q', function ($http, $q) {
 	    	  }
 	    	  
 	    	  if (response.status == 401){
-	    		  deferred.reject("El usuario o la contraseña son incorrectos.")
+	    		  deferred.reject("El usuario o la contraseña son incorrectos." + errorMsg)
 	    	  }else{
 	    		  deferred.reject( errorMsg );
 	    	  }

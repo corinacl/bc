@@ -76,6 +76,19 @@ public class BookingController {
  
 		return date;
 	}
+	/*CORI*/
+	public Calendar createDepartureDateMinusOne (String createDepartureDate){
+        String delims = "/";
+        String[] tokens = createDepartureDate.split(delims);
+        
+        Calendar date = Calendar.getInstance();
+        date.set(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[1])-1, Integer.parseInt(tokens[0])-1);
+        date.set(Calendar.SECOND, 0);
+        date.set(Calendar.MINUTE, 0);
+        date.set(Calendar.HOUR_OF_DAY, 12);
+ 
+        return date;
+    }
 		
 	public Calendar createArrivalDateToCompare(Calendar cal, String month){
 		Calendar date = Calendar.getInstance();
@@ -158,33 +171,36 @@ public class BookingController {
 	public BigDecimal calculateTotalPrice(String arrivalDate, String departureDate, int idBungalow, Client client){
 		Calendar arrival = createArrivalDate(arrivalDate);
 		Calendar departure = createDepartureDate(departureDate);
+		Calendar departureMinusOne = createDepartureDateMinusOne(departureDate);
 		Bungalow bungalow = bungalowDao.findOne(idBungalow);
 		BigDecimal totalPrice = new BigDecimal(0);
 		boolean endOfDate = false;
 		
-		if (!client.getSurname().equals("Invitado")){
-			while(!endOfDate){			
-				if(!arrival.before(createArrivalDateToCompare(arrival, "janToApr")) && !arrival.after(createDepartureDateToCompare(arrival, "janToApr"))){
-					totalPrice = totalPrice.add(bungalow.getType().getJanToAprPrice());
-				} else if (!arrival.before(createArrivalDateToCompare(arrival, "octToDec")) && !arrival.after(createDepartureDateToCompare(arrival, "octToDec"))){
-					totalPrice = totalPrice.add(bungalow.getType().getOctToDecPrice());
-				} else if (!arrival.before(createArrivalDateToCompare(arrival, "decToJan")) && !arrival.after(createDepartureDateToCompare(arrival, "decToJan"))){
-					totalPrice = totalPrice.add(bungalow.getType().getDecToJanPrice());
-				} else if (!arrival.before(createArrivalDateToCompare(arrival, "aprToJun")) && !arrival.after(createDepartureDateToCompare(arrival, "aprToJun"))){
-					totalPrice = totalPrice.add(bungalow.getType().getAprToJunPrice());
-				} else if (!arrival.before(createArrivalDateToCompare(arrival, "julToOct")) && !arrival.after(createDepartureDateToCompare(arrival, "julToOct"))){
-					totalPrice = totalPrice.add(bungalow.getType().getJulToOctPrice());
-				}
-	
-				if (arrival.after(departure)){
-					endOfDate = true;
-				}else{
-					arrival.add(Calendar.DAY_OF_MONTH, 1);
-				}
-			}
-			return totalPrice;
+		if (client.getSurname().equals("Invitado")){
+		   return totalPrice;
 		}else{
-			return totalPrice;
+		    //while(!endOfDate){   
+            while (arrival.before(departure)){
+                if(!arrival.before(createArrivalDateToCompare(arrival, "janToApr")) && !arrival.after(createDepartureDateToCompare(arrival, "janToApr"))){
+                    totalPrice = totalPrice.add(bungalow.getType().getJanToAprPrice());
+                } else if (!arrival.before(createArrivalDateToCompare(arrival, "octToDec")) && !arrival.after(createDepartureDateToCompare(arrival, "octToDec"))){
+                    totalPrice = totalPrice.add(bungalow.getType().getOctToDecPrice());
+                } else if (!arrival.before(createArrivalDateToCompare(arrival, "decToJan")) && !arrival.after(createDepartureDateToCompare(arrival, "decToJan"))){
+                    totalPrice = totalPrice.add(bungalow.getType().getDecToJanPrice());
+                } else if (!arrival.before(createArrivalDateToCompare(arrival, "aprToJun")) && !arrival.after(createDepartureDateToCompare(arrival, "aprToJun"))){
+                    totalPrice = totalPrice.add(bungalow.getType().getAprToJunPrice());
+                } else if (!arrival.before(createArrivalDateToCompare(arrival, "julToOct")) && !arrival.after(createDepartureDateToCompare(arrival, "julToOct"))){
+                    totalPrice = totalPrice.add(bungalow.getType().getJulToOctPrice());
+                }
+                arrival.add(Calendar.DAY_OF_MONTH, 2);
+                //if (arrival.after(departure)){
+                /*if (arrival.after(departureMinusOne)){
+                    arrival.add(Calendar.DAY_OF_MONTH, 2);
+                }else{
+                    endOfDate = true;
+                }*/
+            }//Fin while
+                return totalPrice;
 		}
 	}
 	
