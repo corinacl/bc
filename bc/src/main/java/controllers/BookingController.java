@@ -51,7 +51,7 @@ public class BookingController {
 		return bookings;
 	}
 	
-	public Calendar createArrivalDate (String createArrivalDate){
+	public Calendar createArrivalDate (String createArrivalDate){ //Get a date in string format - convert to Calendar
 		String delims = "/";
 		String[] tokens = createArrivalDate.split(delims);
 		
@@ -64,7 +64,7 @@ public class BookingController {
 		return date;
 	}
 	
-	public Calendar createDepartureDate (String createDepartureDate){
+	public Calendar createDepartureDate (String createDepartureDate){ //Get a date in string format - convert to Calendars
 		String delims = "/";
 		String[] tokens = createDepartureDate.split(delims);
 		
@@ -76,21 +76,8 @@ public class BookingController {
  
 		return date;
 	}
-	/*CORI*/
-	public Calendar createDepartureDateMinusOne (String createDepartureDate){
-        String delims = "/";
-        String[] tokens = createDepartureDate.split(delims);
-        
-        Calendar date = Calendar.getInstance();
-        date.set(Integer.parseInt(tokens[2]), Integer.parseInt(tokens[1])-1, Integer.parseInt(tokens[0])-1);
-        date.set(Calendar.SECOND, 0);
-        date.set(Calendar.MINUTE, 0);
-        date.set(Calendar.HOUR_OF_DAY, 12);
- 
-        return date;
-    }
 		
-	public Calendar createArrivalDateToCompare(Calendar cal, String month){
+	public Calendar createArrivalDateToCompare(Calendar cal, String month){ 
 		Calendar date = Calendar.getInstance();
 		switch (month){
 		case "janToApr":
@@ -171,15 +158,12 @@ public class BookingController {
 	public BigDecimal calculateTotalPrice(String arrivalDate, String departureDate, int idBungalow, Client client){
 		Calendar arrival = createArrivalDate(arrivalDate);
 		Calendar departure = createDepartureDate(departureDate);
-		Calendar departureMinusOne = createDepartureDateMinusOne(departureDate);
 		Bungalow bungalow = bungalowDao.findOne(idBungalow);
 		BigDecimal totalPrice = new BigDecimal(0);
-		boolean endOfDate = false;
 		
 		if (client.getSurname().equals("Invitado")){
-		   return totalPrice;
-		}else{
-		    //while(!endOfDate){   
+		   return new BigDecimal(8);
+		}else{  
             while (arrival.before(departure)){
                 if(!arrival.before(createArrivalDateToCompare(arrival, "janToApr")) && !arrival.after(createDepartureDateToCompare(arrival, "janToApr"))){
                     totalPrice = totalPrice.add(bungalow.getType().getJanToAprPrice());
@@ -192,13 +176,7 @@ public class BookingController {
                 } else if (!arrival.before(createArrivalDateToCompare(arrival, "julToOct")) && !arrival.after(createDepartureDateToCompare(arrival, "julToOct"))){
                     totalPrice = totalPrice.add(bungalow.getType().getJulToOctPrice());
                 }
-                arrival.add(Calendar.DAY_OF_MONTH, 2);
-                //if (arrival.after(departure)){
-                /*if (arrival.after(departureMinusOne)){
-                    arrival.add(Calendar.DAY_OF_MONTH, 2);
-                }else{
-                    endOfDate = true;
-                }*/
+                arrival.add(Calendar.DAY_OF_MONTH, 1);
             }//Fin while
                 return totalPrice;
 		}
