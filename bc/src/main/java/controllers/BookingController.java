@@ -174,7 +174,7 @@ public class BookingController {
 		BigDecimal totalPrice = new BigDecimal(0);
 		
 		if (client.getSurname().equals("Invitado")){
-		   return new BigDecimal(7);
+		   return totalPrice;
 		}else{  
             while (arrival.before(departure)){
                 if(!arrival.before(createArrivalDateToCompare(arrival, "janToApr")) && !arrival.after(createDepartureDateToCompare(arrival, "janToApr"))){
