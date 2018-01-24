@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import api.exceptions.IncompleteModifyBookingException;
+import api.exceptions.IncompleteBookingException;
 import config.PersistenceConfig;
 import config.TestsControllerConfig;
 import config.TestsPersistenceConfig;
@@ -30,7 +30,7 @@ public class BungalowControllerIT {
     }
 
     @Test
-    public void testGetAvailability() throws IncompleteModifyBookingException {
+    public void testGetAvailability() throws IncompleteBookingException {
     	List<Bungalow> bungalows = bungalowController.getAvailabilityInDates(new DateRangeWrapper("01/04/2017","29/04/2017"));
         assertEquals(14, bungalows.size());
     }

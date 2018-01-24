@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import api.exceptions.IncompleteDataSearchException;
-import api.exceptions.IncompleteModifyBookingException;
+import api.exceptions.IncompleteBookingException;
 import daos.BookingDao;
 import daos.ClientDao;
 import daos.BungalowDao;
@@ -76,7 +76,7 @@ public class BookingController {
  
 		return date;
 	}
-		
+			
 	public Calendar createArrivalDateToCompare(Calendar cal, String month){ 
 		Calendar date = Calendar.getInstance();
 		switch (month){
@@ -104,8 +104,14 @@ public class BookingController {
 			date.set(Calendar.MINUTE, 0);
 			date.set(Calendar.HOUR_OF_DAY, 11);
 			break;
-		case "decToJan":
+		case "decToJan_Dec":
 			date.set(cal.get(Calendar.YEAR), 11, 22);
+			date.set(Calendar.SECOND, 0);
+			date.set(Calendar.MINUTE, 0);
+			date.set(Calendar.HOUR_OF_DAY, 11);
+			break;
+		case "decToJan_Jan":
+			date.set(cal.get(Calendar.YEAR)-1, 11, 22);
 			date.set(Calendar.SECOND, 0);
 			date.set(Calendar.MINUTE, 0);
 			date.set(Calendar.HOUR_OF_DAY, 11);
@@ -143,7 +149,13 @@ public class BookingController {
 				date.set(Calendar.MINUTE, 0);
 				date.set(Calendar.HOUR_OF_DAY, 15);
 				break;
-			case "decToJan":
+			case "decToJan_Dec":
+				date.set(cal.get(Calendar.YEAR)+1, 0, 5);
+				date.set(Calendar.SECOND, 0);
+				date.set(Calendar.MINUTE, 0);
+				date.set(Calendar.HOUR_OF_DAY, 15);
+				break;
+			case "decToJan_Jan":
 				date.set(cal.get(Calendar.YEAR), 0, 5);
 				date.set(Calendar.SECOND, 0);
 				date.set(Calendar.MINUTE, 0);
@@ -162,15 +174,16 @@ public class BookingController {
 		BigDecimal totalPrice = new BigDecimal(0);
 		
 		if (client.getSurname().equals("Invitado")){
-		   return new BigDecimal(8);
+		   return new BigDecimal(7);
 		}else{  
             while (arrival.before(departure)){
                 if(!arrival.before(createArrivalDateToCompare(arrival, "janToApr")) && !arrival.after(createDepartureDateToCompare(arrival, "janToApr"))){
                     totalPrice = totalPrice.add(bungalow.getType().getJanToAprPrice());
                 } else if (!arrival.before(createArrivalDateToCompare(arrival, "octToDec")) && !arrival.after(createDepartureDateToCompare(arrival, "octToDec"))){
                     totalPrice = totalPrice.add(bungalow.getType().getOctToDecPrice());
-                } else if (!arrival.before(createArrivalDateToCompare(arrival, "decToJan")) && !arrival.after(createDepartureDateToCompare(arrival, "decToJan"))){
-                    totalPrice = totalPrice.add(bungalow.getType().getDecToJanPrice());
+                } else if (((arrival.get(Calendar.MONTH)==11) && (!arrival.before(createArrivalDateToCompare(arrival, "decToJan_Dec")) && !arrival.after(createDepartureDateToCompare(arrival, "decToJan_Dec")))) ||
+                	((arrival.get(Calendar.MONTH)==0) && (!arrival.before(createArrivalDateToCompare(arrival, "decToJan_Jan")) && !arrival.after(createDepartureDateToCompare(arrival, "decToJan_Jan"))))){
+                    	totalPrice = totalPrice.add(bungalow.getType().getDecToJanPrice());
                 } else if (!arrival.before(createArrivalDateToCompare(arrival, "aprToJun")) && !arrival.after(createDepartureDateToCompare(arrival, "aprToJun"))){
                     totalPrice = totalPrice.add(bungalow.getType().getAprToJunPrice());
                 } else if (!arrival.before(createArrivalDateToCompare(arrival, "julToOct")) && !arrival.after(createDepartureDateToCompare(arrival, "julToOct"))){
@@ -178,19 +191,23 @@ public class BookingController {
                 }
                 arrival.add(Calendar.DAY_OF_MONTH, 1);
             }//Fin while
-                return totalPrice;
-		}
+            return totalPrice;
+		} 
 	}
 	
-	public Booking createBooking(BookingCreateWrapper bookingCreateWrapper) {
+	public Booking createBooking(BookingCreateWrapper bookingCreateWrapper) throws IncompleteBookingException {
 		Bungalow bungalow = bungalowDao.findOne(bookingCreateWrapper.getIdBungalow());
 		Client client = clientDao.findOne(bookingCreateWrapper.getIdCliente());
-
-		Booking booking = new Booking (bungalow, client, createArrivalDate(bookingCreateWrapper.getArrival()), 
-				createDepartureDate(bookingCreateWrapper.getDeparture()), 
-				calculateTotalPrice(bookingCreateWrapper.getArrival(), bookingCreateWrapper.getDeparture(), bookingCreateWrapper.getIdBungalow(), client));
-
-		return bookingDao.save(booking);
+		
+		if((bungalow==null) || (bookingCreateWrapper.getArrival() == null) || (bookingCreateWrapper.getDeparture() == null) || (client==null)){
+			throw new IncompleteBookingException();
+		}else{
+			Booking booking = new Booking (bungalow, client, createArrivalDate(bookingCreateWrapper.getArrival()), 
+					createDepartureDate(bookingCreateWrapper.getDeparture()), 
+					calculateTotalPrice(bookingCreateWrapper.getArrival(), bookingCreateWrapper.getDeparture(), bookingCreateWrapper.getIdBungalow(), client));
+	
+			return bookingDao.save(booking);
+		}
 	}
 	
 	public BookingModifyWrapper getBookingById(int id){
@@ -208,13 +225,13 @@ public class BookingController {
 		return booking;
 	}
 	
-	public void bookingModify (BookingSaveModifiedWrapper bookingSaveModifiedWrapper) throws IncompleteModifyBookingException {
+	public void bookingModify (BookingSaveModifiedWrapper bookingSaveModifiedWrapper) throws IncompleteBookingException {
 		Booking booking = bookingDao.findOne(bookingSaveModifiedWrapper.getId());
 		Bungalow bungalow = bungalowDao.findOne(bookingSaveModifiedWrapper.getIdBungalow());
 		Client client = clientDao.findOne(bookingSaveModifiedWrapper.getIdClient());
 		
 		if((bungalow==null) || (bookingSaveModifiedWrapper.getArrival() == null) || (bookingSaveModifiedWrapper.getDeparture() == null)){
-			throw new IncompleteModifyBookingException();
+			throw new IncompleteBookingException();
 		}else{
 			booking.setBungalow(bungalow);
 			booking.setClient(client);
@@ -226,9 +243,9 @@ public class BookingController {
 		}
 	}
 	
-	public List<Booking> getBookingByDateRange(DateRangeWrapper dateRangeWrapper) throws IncompleteModifyBookingException {
+	public List<Booking> getBookingByDateRange(DateRangeWrapper dateRangeWrapper) throws IncompleteBookingException {
 		if ((dateRangeWrapper.getArrival() == null) || (dateRangeWrapper.getDeparture() == null)){
-			throw new IncompleteModifyBookingException();
+			throw new IncompleteBookingException();
 		}else{
 			return bookingDao.findByDatesBetween(
 					createArrivalDate(dateRangeWrapper.getArrival()), 

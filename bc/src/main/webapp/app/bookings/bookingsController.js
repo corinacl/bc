@@ -30,7 +30,7 @@ bc.controller('ListBookingsController', [ '$timeout', 'Alertify', 'BookingsServi
 			BookingsService.search(vm.client_id).then(function(result) {
 				vm.data2 = result;
 			}, function(errors) {
-				Alertify.error(errors);
+				Alertify.error("¡ERROR! " + errors);
 			});
 		}
 		
@@ -39,7 +39,7 @@ bc.controller('ListBookingsController', [ '$timeout', 'Alertify', 'BookingsServi
 				vm.bookings = result;
 				vm.currentDate = new Date();
 			}, function(errors) {
-				Alertify.error(errors);
+				Alertify.error("¡ERROR! " + errors);
 			});
 		}
 		
@@ -51,7 +51,7 @@ bc.controller('ListBookingsController', [ '$timeout', 'Alertify', 'BookingsServi
 					searchBookings(vm.arrival, vm.departure, vm.bungalow);
 				}			
 			}, function(errors) {
-				Alertify.error(errors);
+				Alertify.error("¡ERROR! " + errors);
 			});
 		}
 		
@@ -59,7 +59,7 @@ bc.controller('ListBookingsController', [ '$timeout', 'Alertify', 'BookingsServi
 			BookingsService.searchBookings(vm.arrival, vm.departure, vm.bungalow).then(function(result) {
 				vm.resultBookings = result;
 			}, function(errors) {
-				Alertify.error(errors);
+				Alertify.error("¡ERROR! " + errors);
 			});
 		}
 	}				

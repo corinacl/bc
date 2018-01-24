@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import api.exceptions.IncompleteModifyBookingException;
+import api.exceptions.IncompleteBookingException;
 import config.PersistenceConfig;
 import config.TestsControllerConfig;
 import config.TestsPersistenceConfig;
@@ -48,7 +48,7 @@ public class BookingControllerIT {
     }
     
     @Test
-    public void testCreateBooking() {
+    public void testCreateBooking() throws IncompleteBookingException {
     	BookingCreateWrapper bookingCreateWrapper = new BookingCreateWrapper(2, 2, "02/02/2017", "06/02/2017");
     	Booking newBooking = bookingController.createBooking(bookingCreateWrapper);
     	assertEquals(11, bookingController.getAll().size());
@@ -62,7 +62,7 @@ public class BookingControllerIT {
     } 
     
     @Test
-    public void testGetBookingByDateRange() throws IncompleteModifyBookingException {
+    public void testGetBookingByDateRange() throws IncompleteBookingException {
     	DateRangeWrapper dateRangeWrapper =  new DateRangeWrapper("01/06/2017", "20/06/2017");
     	List<Booking> bookings = bookingController.getBookingByDateRange(dateRangeWrapper);
     	assertEquals(3, bookings.size());

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import api.exceptions.IncompleteModifyBookingException;
+import api.exceptions.IncompleteBookingException;
 
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -33,12 +33,12 @@ public class BungalowResource {
 	}
 	
 	@RequestMapping(value = Uris.SEARCH, method = RequestMethod.POST)
-    public List<Bungalow> searchByBungalow (@RequestBody DateRangeWrapper dateRangeWrapper) throws IncompleteModifyBookingException{
+    public List<Bungalow> searchByBungalow (@RequestBody DateRangeWrapper dateRangeWrapper) throws IncompleteBookingException{
     	return bungalowController.getAvailabilityInDates(dateRangeWrapper);
     }
 	
 	@RequestMapping(value = Uris.SEARCH + Uris.MODIFY, method = RequestMethod.POST)
-    public List<Bungalow> searchByBungalowForModify (@RequestBody DateRangeAndIdBookingWrapper dateRangeAndIdBookingWrapper) throws IncompleteModifyBookingException{
+    public List<Bungalow> searchByBungalowForModify (@RequestBody DateRangeAndIdBookingWrapper dateRangeAndIdBookingWrapper) throws IncompleteBookingException{
     	return bungalowController.getAvailabilityInDatesForModify(dateRangeAndIdBookingWrapper);
     }
 

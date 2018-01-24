@@ -16,7 +16,7 @@ bc.service('BookingsService', ['$http', '$q', function ($http, $q) {
 	    	  }else{
 	    		  errorMsg = response.data.description;
 	    	  }
-	    	  deferred.reject("ERROR: " + errorMsg);
+	    	  deferred.reject(errorMsg);
 	      });
 	      return deferred.promise;	   
    }

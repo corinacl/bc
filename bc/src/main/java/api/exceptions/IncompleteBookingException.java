@@ -1,6 +1,6 @@
 package api.exceptions;
 
-public class IncompleteModifyBookingException extends ApiException {
+public class IncompleteBookingException extends ApiException {
 
     private static final long serialVersionUID = -1344640670884814385L;
 
@@ -8,11 +8,11 @@ public class IncompleteModifyBookingException extends ApiException {
 
     public static final int CODE = 24;
 
-    public IncompleteModifyBookingException() {
+    public IncompleteBookingException() {
         this("");
     }
 
-    public IncompleteModifyBookingException(String detail) {
+    public IncompleteBookingException(String detail) {
         super(DESCRIPTION + ". " + detail, CODE);
     }
 

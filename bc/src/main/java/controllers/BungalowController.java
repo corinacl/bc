@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import api.exceptions.IncompleteModifyBookingException;
+import api.exceptions.IncompleteBookingException;
 import daos.BungalowDao;
 import entities.Bungalow;
 import wrappers.DateRangeAndIdBookingWrapper;
@@ -33,9 +33,9 @@ public class BungalowController {
 		return bungalows;
 	}
 	
-	public List<Bungalow> getAvailabilityInDates(DateRangeWrapper dateRangeWrapper) throws IncompleteModifyBookingException{
+	public List<Bungalow> getAvailabilityInDates(DateRangeWrapper dateRangeWrapper) throws IncompleteBookingException{
 		if ((dateRangeWrapper.getArrival() == null) || (dateRangeWrapper.getDeparture() == null)){
-			throw new IncompleteModifyBookingException("Fechas incompletas.");
+			throw new IncompleteBookingException("Fechas incompletas.");
 		}else{
 			return bungalowDao.findAvailability(
 					bookingController.createArrivalDate(dateRangeWrapper.getArrival()), 
@@ -43,9 +43,9 @@ public class BungalowController {
 		}
 	}
 	
-	public List<Bungalow> getAvailabilityInDatesForModify(DateRangeAndIdBookingWrapper dateRangeAndIdBookingWrapper) throws IncompleteModifyBookingException{
+	public List<Bungalow> getAvailabilityInDatesForModify(DateRangeAndIdBookingWrapper dateRangeAndIdBookingWrapper) throws IncompleteBookingException{
 		if ((dateRangeAndIdBookingWrapper.getArrival() == null) || (dateRangeAndIdBookingWrapper.getDeparture() == null)){
-			throw new IncompleteModifyBookingException("Fechas incompletas.");
+			throw new IncompleteBookingException("Fechas incompletas.");
 		}else{
 			return bungalowDao.findAvailabilityForModify(
 					bookingController.createArrivalDate(dateRangeAndIdBookingWrapper.getArrival()), 

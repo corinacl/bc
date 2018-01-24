@@ -13,7 +13,7 @@ import api.exceptions.DuplicatedEntryClientException;
 import api.exceptions.ErrorMessage;
 import api.exceptions.IncompleteDataSearchException;
 import api.exceptions.IncompleteFieldException;
-import api.exceptions.IncompleteModifyBookingException;
+import api.exceptions.IncompleteBookingException;
 import api.exceptions.IncompletePlanningFormException;
 import api.exceptions.InvalidUserFieldException;
 import api.exceptions.MalformedHeaderException;
@@ -40,7 +40,7 @@ public class ApiExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({MalformedHeaderException.class, IncompleteFieldException.class, IncompleteDataSearchException.class, IncompleteModifyBookingException.class, InvalidUserFieldException.class, IncompletePlanningFormException.class})
+    @ExceptionHandler({MalformedHeaderException.class, IncompleteFieldException.class, IncompleteDataSearchException.class, IncompleteBookingException.class, InvalidUserFieldException.class, IncompletePlanningFormException.class})
     @ResponseBody
     public ErrorMessage badRequest(ApiException exception) {
         ErrorMessage apiErrorMessage = new ErrorMessage(exception);

@@ -26,7 +26,7 @@ bc.controller('CreateBookingClientController', [ '$timeout', 'Alertify', 'Client
 				vm.completed = true;
 				vm.resBungalow = result;
 			}, function(errors) {
-				Alertify.error(errors);
+				Alertify.error("¡ERROR! " + errors);
 			});
 		}
 		
@@ -35,7 +35,7 @@ bc.controller('CreateBookingClientController', [ '$timeout', 'Alertify', 'Client
 				vm.completed = true;
 				vm.client = result;
 			}, function(errors) {
-				Alertify.error(errors);
+				Alertify.error("¡ERROR! " + errors);
 			});
 		}
 	}
