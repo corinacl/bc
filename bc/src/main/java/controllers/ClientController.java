@@ -1,8 +1,12 @@
 package controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 
 import api.exceptions.DuplicatedEntryClientException;
@@ -11,6 +15,7 @@ import daos.ClientDao;
 import entities.Client;
 import wrappers.ClientCreateWrapper;
 import wrappers.ClientWrapper;
+
 
 @Controller
 public class ClientController {
@@ -24,6 +29,16 @@ public class ClientController {
 	
 	public List<Client> getAll(){
 		return clientDao.findAllByOrderByNameAsc();
+}
+	
+	public Page<Client> getAll(Pageable pageable){
+		Page<Client> page = clientDao.findAll(pageable);
+		List<Client> clients = new ArrayList<>();
+	
+		for (Client client : page.getContent()){
+			clients.add(client);
+		}	
+		return new PageImpl<Client>(clients, pageable, page.getTotalElements());
 	}
 	
 	public Client getClientById(long id){

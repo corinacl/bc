@@ -195,7 +195,7 @@ public class BookingController {
 		} 
 	}
 	
-	public Booking createBooking(BookingCreateWrapper bookingCreateWrapper) throws IncompleteBookingException {
+	public Booking createBooking(BookingCreateWrapper bookingCreateWrapper) throws IncompleteBookingException { //Create a booking
 		Bungalow bungalow = bungalowDao.findOne(bookingCreateWrapper.getIdBungalow());
 		Client client = clientDao.findOne(bookingCreateWrapper.getIdCliente());
 		
@@ -210,7 +210,7 @@ public class BookingController {
 		}
 	}
 	
-	public BookingModifyWrapper getBookingById(int id){
+	public BookingModifyWrapper getBookingById(int id){ //Get a booking by its ID (Modify purposes)
 		Booking b = bookingDao.findOne(id);
 		String arrival= String.valueOf(b.getArrivalDate().get(Calendar.DAY_OF_MONTH)) 
 				+ "/" + String.valueOf(b.getArrivalDate().get(Calendar.MONTH)+1)
@@ -225,7 +225,7 @@ public class BookingController {
 		return booking;
 	}
 	
-	public void bookingModify (BookingSaveModifiedWrapper bookingSaveModifiedWrapper) throws IncompleteBookingException {
+	public void bookingModify (BookingSaveModifiedWrapper bookingSaveModifiedWrapper) throws IncompleteBookingException { //Modify a booking
 		Booking booking = bookingDao.findOne(bookingSaveModifiedWrapper.getId());
 		Bungalow bungalow = bungalowDao.findOne(bookingSaveModifiedWrapper.getIdBungalow());
 		Client client = clientDao.findOne(bookingSaveModifiedWrapper.getIdClient());
@@ -243,7 +243,7 @@ public class BookingController {
 		}
 	}
 	
-	public List<Booking> getBookingByDateRange(DateRangeWrapper dateRangeWrapper) throws IncompleteBookingException {
+	public List<Booking> getBookingByDateRange(DateRangeWrapper dateRangeWrapper) throws IncompleteBookingException { //Search bookings by certain dates
 		if ((dateRangeWrapper.getArrival() == null) || (dateRangeWrapper.getDeparture() == null)){
 			throw new IncompleteBookingException();
 		}else{
@@ -253,16 +253,16 @@ public class BookingController {
 		}
 	}
 
-	public List<Booking> getBookingsByClient(ClientIdWrapper clientIdWrapper) {
+	public List<Booking> getBookingsByClient(ClientIdWrapper clientIdWrapper) { //Get bookings by a client
 		return bookingDao.findByClient(clientDao.findById(clientIdWrapper.getId()));
 	}
 
-	public void deleteBooking (int id) {
+	public void deleteBooking (int id) { 
 		Booking booking = bookingDao.findOne(id);
 		bookingDao.delete(booking);
 	}
 
-	public List<Booking> searchBookings(DateRangeAndBungalowNrWrapper dateRangeAndBungalowNrWrapper) throws IncompleteDataSearchException {
+	public List<Booking> searchBookings(DateRangeAndBungalowNrWrapper dateRangeAndBungalowNrWrapper) throws IncompleteDataSearchException { //Search section on bookings page
 		if (dateRangeAndBungalowNrWrapper.getArrival() == null || dateRangeAndBungalowNrWrapper.getDeparture() == null){
 			throw new IncompleteDataSearchException ();
 		}else{

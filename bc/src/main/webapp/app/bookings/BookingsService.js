@@ -33,7 +33,7 @@ bc.service('BookingsService', ['$http', '$q', function ($http, $q) {
    this.getClients = function (){
 	   let config = {
 			   method: 'GET',
-			   url: urlBase+"/clients"
+			   url: urlBase+"/clients/list"
 	   };
 		  return this.request(config);
 	  }

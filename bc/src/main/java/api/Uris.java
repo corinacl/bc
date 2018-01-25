@@ -27,4 +27,6 @@ public class Uris {
     public static final String MODIFY = "/modify";
 
 	public static final String SORT = "/sort";
+	
+	public static final String LIST = "/list";
 }

@@ -14,23 +14,31 @@ bc.service('ClientsService', ['$http', '$q', function ($http, $q) {
 	    	  if(response.data.error === undefined) {
 	    		  errorMsg="" + response.data.description;
 	    	  }else{
-	    		 //errorMsg = " --- " + response.data.error + ":" + response.data.description;
 	    		 errorMsg = response.data.description;
 	    	  }
-	    	  //deferred.reject( "Error (" + response.status + ":" + response.statusText + ")" + errorMsg );
 	    	  deferred.reject(errorMsg);
 	      });
 	      
 	      return deferred.promise;	   
    }
+   
+   this.getClients = function (pageInfo){
+		  let config = {
+		 	 method: 'GET',
+		 	 url: `${urlBase}/clients?page=${pageInfo.pageNumber}&size=${pageInfo.pageSize}` + 
+		 	 `&sort=${pageInfo.sortParameter},${pageInfo.reverse}`
+		  };
+	      return this.request(config);
+	}
   
    this.initList = function (){
 	   let config = {
-			   method: 'GET',
-			   url: urlBase+"/clients"			  
+		   method: 'GET',
+			   url: urlBase+"/clients/list"			  
 	   };
-		  return this.request(config);
-	  }
+	   return this.request(config);
+	}
+
    
    this.createClient = function (client){
 	   let config = {
