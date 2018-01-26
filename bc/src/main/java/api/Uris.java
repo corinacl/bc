@@ -29,4 +29,6 @@ public class Uris {
 	public static final String SORT = "/sort";
 	
 	public static final String LIST = "/list";
+	
+	public static final String PDF = "/pdf";
 }

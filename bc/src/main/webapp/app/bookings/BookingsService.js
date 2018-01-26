@@ -147,5 +147,16 @@ bc.service('BookingsService', ['$http', '$q', function ($http, $q) {
   	   };
   	  return this.request(config);
     }
+   
+   this.generatePdf = function(){
+	   let config = {
+			   method: 'GET',
+			   url: urlBase+"/pdf",
+			   params: {
+				   fileName: "pdfTesttttt"
+			   }
+	   };
+	   return this.request(config);
+   }
 
 }]);

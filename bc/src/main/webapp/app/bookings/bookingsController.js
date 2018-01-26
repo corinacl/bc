@@ -8,6 +8,7 @@ bc.controller('ListBookingsController', [ '$timeout', '$route', 'Alertify', 'Boo
 		vm.search = search;
 		vm.sortBy = sortBy;
 		vm.searchSortBy = searchSortBy;
+		vm.generatePdf = generatePdf;
 		//vm.initList = initList;
 		vm.deleteBooking = deleteBooking;
 		vm.searchBookings = searchBookings;
@@ -15,6 +16,7 @@ bc.controller('ListBookingsController', [ '$timeout', '$route', 'Alertify', 'Boo
 		vm.reverseSearch = true;
 		vm.loading = true;
 		vm.bookings = [];
+		
 		
 		vm.pageInfo = {
 			pageNumber: 0,
@@ -53,6 +55,14 @@ bc.controller('ListBookingsController', [ '$timeout', '$route', 'Alertify', 'Boo
 			}
 			vm.pageInfo.sortParameter = sortParameter;
 			loadBookings();
+		}
+		
+		function generatePdf(){
+			BookingsService.generatePdf().then(function(result) {
+				Alertify.success("El PDF se ha generado correctamente");		
+			}, function(errors) {
+				Alertify.error("¡ERROR! " + errors);
+			});
 		}
 		
 		function searchSortBy(sortByProperty){
