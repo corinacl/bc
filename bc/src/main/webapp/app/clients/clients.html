@@ -121,9 +121,13 @@
 				<div class="no-data" ng-if="vm.clients.length < 1">
                 	<div class="panel-body"> No hay clientes </div>
             	</div>
+            	<div class="panel" ng-hide="!vm.loading">
+                	<div class="panel-body">
+                    	Cargando datos...
+                	</div>
+            	</div>
      		</div> 
      		<!-- Fin panel de clientes || Comienzo del paging -->
-     		
      		<div class="panel panel-primary row center" style="padding:0px; margin:0px" ng-if="vm.clients.length > 0"> 
                 <paging
                     class="small"

@@ -3,6 +3,8 @@ package api;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,9 +35,15 @@ public class BookingResource {
 		this.bookingController = bookingController;
 	}
 	
-	@RequestMapping(method = RequestMethod.GET)
+	/*@RequestMapping(method = RequestMethod.GET)
 	public List<Booking> listBookings(){
 		return bookingController.getAll();
+	}
+	*/
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public Page<Booking> listBookings(Pageable pageable){
+		return bookingController.getAll(pageable);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)

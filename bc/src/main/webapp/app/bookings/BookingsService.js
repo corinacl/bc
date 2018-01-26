@@ -21,13 +21,22 @@ bc.service('BookingsService', ['$http', '$q', function ($http, $q) {
 	      return deferred.promise;	   
    }
    
-   this.initList = function (){
-  	   let config = {
-			   method: 'GET',
-  			   url: urlBase+"/bookings"
-  	   };
-  	  return this.request(config);
-    };
+   this.getBookings = function (pageInfo){
+		  let config = {
+		 	 method: 'GET',
+		 	 url: `${urlBase}/bookings?page=${pageInfo.pageNumber}&size=${pageInfo.pageSize}` + 
+		 	 `&sort=${pageInfo.sortParameter},${pageInfo.reverse}`
+		  };
+	      return this.request(config);
+	}
+   
+//   this.initList = function (){
+//  	   let config = {
+//			   method: 'GET',
+//  			   url: urlBase+"/bookings/list"
+//  	   };
+//  	  return this.request(config);
+//    };
     
 
    this.getClients = function (){

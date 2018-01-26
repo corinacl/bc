@@ -87,33 +87,38 @@
 	                            </table>
 	                        </div><!-- Fin si hay resultados -->
 	                        <div class="no-data" ng-if="vm.resultBookings.length <1">
-	                           <div class="panel-body"> No se encontrÃ³ ninguna reserva. </div>
+	                           <div class="panel-body"> No se encontró ninguna reserva. </div>
 	                        </div>
 	                    </div>
 	                </div>
 	            </div>
-            <!-- Panel de resultados con bÃºsqueda-->
+            <!-- Panel de listado de todas las reservas-->
             <div class="panel panel-primary table-responsive" style="padding-left:0px; padding-right:0px">
                 <table class="table table-striped" id="mejorada">
                     <thead>
                         <tr>
                             <th class="clickable" ng-click="vm.sortBy('id')">ID
-                            <span class="sortorder" ng-show="vm.propertyName === 'id'" ng-class="{reverse: vm.reverse}"></span></th>
-                            <th class="clickable" ng-click="vm.sortBy('bungalow.number')">Bungalow
-                            <span class="sortorder" ng-show="vm.propertyName === 'bungalow.number'" ng-class="{reverse: vm.reverse}"></span></th>
+								<span ng-show="vm.pageInfo.sortParameter === 'id' && vm.pageInfo.reverse == 'desc'" class="glyphicon glyphicon-triangle-bottom text-primary"></span>
+						        <span ng-show="vm.pageInfo.sortParameter === 'id' && vm.pageInfo.reverse == 'asc'" class="glyphicon glyphicon-triangle-top text-primary"></span></th>                            
+						    <th class="clickable" ng-click="vm.sortBy('bungalow.number')">Bungalow
+						    	<span ng-show="vm.pageInfo.sortParameter === 'bungalow.number' && vm.pageInfo.reverse == 'desc'" class="glyphicon glyphicon-triangle-bottom text-primary"></span>
+						        <span ng-show="vm.pageInfo.sortParameter === 'bungalow.number' && vm.pageInfo.reverse == 'asc'" class="glyphicon glyphicon-triangle-top text-primary"></span></th>
                             <th class="clickable" ng-click="vm.sortBy('client.name')">Cliente
-                            <span class="sortorder" ng-show="vm.propertyName === 'client.name'" ng-class="{reverse: vm.reverse}"></span></th>
-                            <th class="clickable"  ng-click="vm.sortBy('arrivalDate')">Entrada
-                            <span class="sortorder" ng-show="vm.propertyName === 'arrivalDate'" ng-class="{reverse: vm.reverse}"></span></th>
-                            <th class="clickable"  ng-click="vm.sortBy('departureDate')">Salida
-                            <span class="sortorder" ng-show="vm.propertyName === 'departureDate'" ng-class="{reverse: vm.reverse}"></span></th>
+								<span ng-show="vm.pageInfo.sortParameter === 'client.name' && vm.pageInfo.reverse == 'desc'" class="glyphicon glyphicon-triangle-bottom text-primary"></span>
+						        <span ng-show="vm.pageInfo.sortParameter === 'client.name' && vm.pageInfo.reverse == 'asc'" class="glyphicon glyphicon-triangle-top text-primary"></span></th>
+						    <th class="clickable"  ng-click="vm.sortBy('arrivalDate')">Entrada
+								<span ng-show="vm.pageInfo.sortParameter === 'arrivalDate' && vm.pageInfo.reverse == 'desc'" class="glyphicon glyphicon-triangle-bottom text-primary"></span>
+						        <span ng-show="vm.pageInfo.sortParameter === 'arrivalDate' && vm.pageInfo.reverse == 'asc'" class="glyphicon glyphicon-triangle-top text-primary"></span></th>                            
+						    <th class="clickable"  ng-click="vm.sortBy('departureDate')">Salida
+                            	<span ng-show="vm.pageInfo.sortParameter === 'departureDate' && vm.pageInfo.reverse == 'desc'" class="glyphicon glyphicon-triangle-bottom text-primary"></span>
+						        <span ng-show="vm.pageInfo.sortParameter === 'departureDate' && vm.pageInfo.reverse == 'asc'" class="glyphicon glyphicon-triangle-top text-primary"></span></th>
                             <th>Precio neto</th>
                             <th>Precio IGIC</th>
                             <th></th>
                         </tr>
                     </thead>
-                    <tbody ng-init="vm.initList()">
-                        <tr ng-repeat="booking in vm.bookings | orderBy:vm.propertyName:vm.reverse">
+                    <tbody>
+                        <tr ng-repeat="booking in vm.bookings">
                             <td>{{booking.id}}</td>
                             <td>{{booking.bungalow.number}}</td>
                             <td>{{booking.client.name}} {{booking.client.surname}}</td>
@@ -132,7 +137,28 @@
                 <div class="no-data" ng-if="vm.bookings.length < 0">
                     <div class="panel-body"> No Bookings Found </div>
                 </div>
+                <div class="panel" ng-hide="!vm.loading">
+                	<div class="panel-body">
+                    	Cargando datos...
+                	</div>
+            	</div>
             </div>
+           	<!-- Fin panel de bookings || Comienzo del paging -->
+     		<div class="panel panel-primary row center" style="padding:0px; margin:0px" ng-if="vm.bookings.length > 0"> 
+                <paging
+                    class="small"
+                    page="vm.pageInfo.pageNumber + 1" 
+                    page-size="vm.pageInfo.pageSize" 
+                    total="vm.pageInfo.totalBookings"
+                    show-prev-next="true"
+                    show-first-last="true"
+                    text-next-class="glyphicon glyphicon-chevron-right"
+                    text-prev-class="glyphicon glyphicon-chevron-left"
+                    text-first-class="glyphicon glyphicon-backward"
+                    text-last-class="glyphicon glyphicon-forward"
+                    paging-action="vm.changeToPage(page - 1)">
+                </paging>   
+			</div><!-- Fin de panel paging -->
             <!-- Modal -->
             <div class="modal fade" id="cancelarModal" role="dialog">
                 <div class="modal-dialog">
@@ -144,7 +170,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="panel panel-primary table-responsive" style="padding-left:0px; padding-right:0px">
-                                <h4 style="text-align:center">Â¿Confirma que quiere eliminar la siguiente reserva?</h4>
+                                <h4 style="text-align:center">¿Confirma que quiere eliminar la siguiente reserva?</h4>
                                 <ul>
                                     <li><b>Cliente:</b> {{vm.booking2.client.name}} {{vm.booking2.client.surname}} </li>
                                     <li><b>Entrada:</b> {{vm.booking2.arrivalDate | date:'dd/MM/yyyy' }} </li>

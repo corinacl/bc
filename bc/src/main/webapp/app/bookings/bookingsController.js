@@ -1,6 +1,6 @@
-bc.controller('ListBookingsController', [ '$timeout', 'Alertify', 'BookingsService',
+bc.controller('ListBookingsController', [ '$timeout', '$route', 'Alertify', 'BookingsService',
 	
-	function($timeout, Alertify, BookingsService) {
+	function($timeout, $route, Alertify, BookingsService) {
 		"use strict";
 		var vm = this;
 		
@@ -8,17 +8,51 @@ bc.controller('ListBookingsController', [ '$timeout', 'Alertify', 'BookingsServi
 		vm.search = search;
 		vm.sortBy = sortBy;
 		vm.searchSortBy = searchSortBy;
-		vm.initList = initList;
+		//vm.initList = initList;
 		vm.deleteBooking = deleteBooking;
 		vm.searchBookings = searchBookings;
-		vm.propertyName = 'id';
 		vm.sortByProperty = 'bungalow.number'
-		vm.reverse = true;
 		vm.reverseSearch = true;
+		vm.loading = true;
+		vm.bookings = [];
+		
+		vm.pageInfo = {
+			pageNumber: 0,
+			pageSize: 10,
+			totalBookings: 0,
+			sortParameter: "id",
+			reverse: "desc"
+		};
+		
+		loadBookings();
+		
+		function loadBookings(){
+			BookingsService.getBookings(vm.pageInfo).then(function(result) {
+				vm.loading = false;
+				vm.bookings = result.content;
+				vm.pageInfo.pageNumber = result.number;
+				vm.pageInfo.totalBookings = result.totalElements;
+				vm.pageInfo.pageSize = result.size;
+				vm.currentDate = new Date();
+			}, function(errors) {
+				vm.loading = false;
+				Alertify.error(errors);
+			});
+		}
+		
+		vm.changeToPage = pageNumber => {
+			vm.pageInfo.pageNumber = pageNumber;
+			loadBookings();
+		}
 		  
-		function sortBy(propertyName){
-			vm.reverse = (vm.propertyName === propertyName) ? !vm.reverse : false;
-			vm.propertyName = propertyName;
+		function sortBy(sortParameter){
+			if ((vm.pageInfo.reverse == "asc" && vm.pageInfo.sortParameter == sortParameter) || (vm.pageInfo.reverse == "desc" && vm.pageInfo.sortParameter != sortParameter)) {
+				vm.pageInfo.reverse = "desc";
+			} else {
+				vm.pageInfo.reverse = "asc";
+			}
+			vm.pageInfo.sortParameter = sortParameter;
+			loadBookings();
 		}
 		
 		function searchSortBy(sortByProperty){
@@ -34,14 +68,13 @@ bc.controller('ListBookingsController', [ '$timeout', 'Alertify', 'BookingsServi
 			});
 		}
 		
-		function initList() {
+		/*function initList() {
 			BookingsService.initList().then(function(result) {
 				vm.bookings = result;
-				vm.currentDate = new Date();
 			}, function(errors) {
 				Alertify.error("¡ERROR! " + errors);
 			});
-		}
+		}*/
 		
 		function deleteBooking(){
 			BookingsService.deleteBooking(vm.booking_id).then(function(result) {

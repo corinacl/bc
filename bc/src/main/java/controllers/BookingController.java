@@ -1,10 +1,14 @@
 package controllers;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 
 import api.exceptions.IncompleteDataSearchException;
@@ -47,8 +51,17 @@ public class BookingController {
 	}
 	
 	public List<Booking> getAll(){
-		List<Booking> bookings = bookingDao.findAll();
-		return bookings;
+		return bookingDao.findAll();
+	}
+	
+	public Page<Booking> getAll(Pageable pageable){
+		Page <Booking> page = bookingDao.findAll(pageable);
+		List<Booking> bookings = new ArrayList<>();
+		
+		for (Booking booking : page.getContent()){
+			bookings.add(booking);
+		}
+		return new PageImpl<Booking>(bookings, pageable, page.getTotalElements());
 	}
 	
 	public Calendar createArrivalDate (String createArrivalDate){ //Get a date in string format - convert to Calendar

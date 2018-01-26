@@ -3,6 +3,8 @@ package daos;
 import java.util.Calendar;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -27,14 +29,8 @@ public interface BookingDao extends JpaRepository<Booking, Integer>{
 			+ "(b.arrivalDate between ?1 and ?2 OR b.departureDate between ?1 and ?2)) ORDER BY b.arrivalDate ASC")
 	List<Booking> findByBookingsBetween(Calendar start, Calendar end);
 	
-	/*List<Booking> findAllByOrderByBungalowAsc();
-	
-	List<Booking> findAllByOrderByArrivalDateAsc();
-	
-	List<Booking> findAllByOrderByClientAsc();
-	
-	List<Booking> findAllByOrderByIdDesc();*/
-	
 	List<Booking> findByClient(Client client);
+	
+	public Page<Booking> findAll(Pageable pageable);
 
 }
