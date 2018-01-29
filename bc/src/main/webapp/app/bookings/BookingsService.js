@@ -158,5 +158,14 @@ bc.service('BookingsService', ['$http', '$q', function ($http, $q) {
 	   };
 	   return this.request(config);
    }
+   
+   this.createConfirmation = function(booking_id){
+	   let config = {
+			   method: 'POST',
+			   url: urlBase+"/pdf",
+			   params: { 'id': booking_id }
+	   };
+	   return this.request(config);
+   }
 
 }]);

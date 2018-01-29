@@ -20,10 +20,15 @@ public class PDFResource {
     public void setPdfController(PDFController pdfController) {
         this.pdfController = pdfController;
     }
-    
+    //Sólo para testing
     @RequestMapping(method = RequestMethod.GET)
     public void generatePdf(@RequestParam(required = true) String fileName) throws FileNotFoundException {
         pdfController.generatePdf(fileName);
+    }
+    
+    @RequestMapping(method = RequestMethod.POST)
+    public void createBookingConfirmation(@RequestParam(required = true) int id) throws FileNotFoundException {
+    	pdfController.createBookingConfirmationPdf(id);
     }
 
 }

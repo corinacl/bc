@@ -11,6 +11,7 @@ bc.controller('ListBookingsController', [ '$timeout', '$route', 'Alertify', 'Boo
 		vm.generatePdf = generatePdf;
 		//vm.initList = initList;
 		vm.deleteBooking = deleteBooking;
+		vm.createConfirmation = createConfirmation;
 		vm.searchBookings = searchBookings;
 		vm.sortByProperty = 'bungalow.number'
 		vm.reverseSearch = true;
@@ -61,6 +62,16 @@ bc.controller('ListBookingsController', [ '$timeout', '$route', 'Alertify', 'Boo
 			BookingsService.generatePdf().then(function(result) {
 				Alertify.success("El PDF se ha generado correctamente");		
 			}, function(errors) {
+				Alertify.error("¡ERROR! " + errors);
+			});
+		}
+		
+		function createConfirmation(){
+			BookingsService.createConfirmation(vm.booking_id).then(function(result) {
+				vm.loading = false;
+				Alertify.success("El PDF se ha generado correctamente");
+			}, function(errors) {
+				vm.loading = false;
 				Alertify.error("¡ERROR! " + errors);
 			});
 		}
