@@ -30,15 +30,6 @@ bc.service('BookingsService', ['$http', '$q', function ($http, $q) {
 	      return this.request(config);
 	}
    
-//   this.initList = function (){
-//  	   let config = {
-//			   method: 'GET',
-//  			   url: urlBase+"/bookings/list"
-//  	   };
-//  	  return this.request(config);
-//    };
-    
-
    this.getClients = function (){
 	   let config = {
 			   method: 'GET',
@@ -159,11 +150,14 @@ bc.service('BookingsService', ['$http', '$q', function ($http, $q) {
 	   return this.request(config);
    }
    
-   this.createConfirmation = function(booking_id){
+   this.createConfirmation = function(booking_id, pdfLanguage){
 	   let config = {
 			   method: 'POST',
 			   url: urlBase+"/pdf",
-			   params: { 'id': booking_id }
+			   params: { 
+				   'id': booking_id,
+				   'pdfLanguage': pdfLanguage
+			   }
 	   };
 	   return this.request(config);
    }

@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,9 +34,9 @@ public class PDFController {
         pdfService.makePdf(fileName, PageSize.A4);       
     }
 
-	public void createBookingConfirmationPdf(int id) throws FileNotFoundException {
+	public void createBookingConfirmationPdf(int id, String pdfLanguage) throws IOException {
 		Booking booking = bookingDao.findOne(id);
-		pdfService.createBookingConfimation(booking);
+		pdfService.createBookingConfimation(booking, pdfLanguage);
 	}
     
 

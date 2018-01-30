@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import controllers.PDFController;
 
@@ -27,8 +28,8 @@ public class PDFResource {
     }
     
     @RequestMapping(method = RequestMethod.POST)
-    public void createBookingConfirmation(@RequestParam(required = true) int id) throws FileNotFoundException {
-    	pdfController.createBookingConfirmationPdf(id);
+    public void createBookingConfirmation(@RequestParam(required = true) int id, @RequestParam(required = true) String pdfLanguage) throws IOException {
+    	pdfController.createBookingConfirmationPdf(id, pdfLanguage);
     }
 
 }

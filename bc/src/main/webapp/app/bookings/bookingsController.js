@@ -7,9 +7,9 @@ bc.controller('ListBookingsController', [ '$timeout', '$route', 'Alertify', 'Boo
 		vm.booking_id;
 		vm.search = search;
 		vm.sortBy = sortBy;
+		vm.pdfLanguage;
 		vm.searchSortBy = searchSortBy;
 		vm.generatePdf = generatePdf;
-		//vm.initList = initList;
 		vm.deleteBooking = deleteBooking;
 		vm.createConfirmation = createConfirmation;
 		vm.searchBookings = searchBookings;
@@ -67,7 +67,7 @@ bc.controller('ListBookingsController', [ '$timeout', '$route', 'Alertify', 'Boo
 		}
 		
 		function createConfirmation(){
-			BookingsService.createConfirmation(vm.booking_id).then(function(result) {
+			BookingsService.createConfirmation(vm.booking_id, vm.pdfLanguage).then(function(result) {
 				vm.loading = false;
 				Alertify.success("El PDF se ha generado correctamente");
 			}, function(errors) {
@@ -88,14 +88,6 @@ bc.controller('ListBookingsController', [ '$timeout', '$route', 'Alertify', 'Boo
 				Alertify.error("¡ERROR! " + errors);
 			});
 		}
-		
-		/*function initList() {
-			BookingsService.initList().then(function(result) {
-				vm.bookings = result;
-			}, function(errors) {
-				Alertify.error("¡ERROR! " + errors);
-			});
-		}*/
 		
 		function deleteBooking(){
 			BookingsService.deleteBooking(vm.booking_id).then(function(result) {
