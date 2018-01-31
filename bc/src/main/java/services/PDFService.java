@@ -16,14 +16,15 @@ import com.itextpdf.kernel.font.PdfFontFactory;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.pdf.canvas.draw.DottedLine;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.Style;
-import com.itextpdf.layout.border.Border;
+import com.itextpdf.layout.element.Cell;
 import com.itextpdf.layout.element.Image;
 import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
 import com.itextpdf.layout.property.HorizontalAlignment;
 import com.itextpdf.layout.property.TextAlignment;
+import com.itextpdf.layout.property.VerticalAlignment;
 import com.itextpdf.layout.element.Text;
 
 import controllers.PlanningController;
@@ -104,7 +105,7 @@ public class PDFService {
 	 			break;
 	 	}	
     }
-    
+        
     public void createBookingConfimation(Booking booking, String pdfLanguage) throws IOException {
         translateTitles(pdfLanguage);
         
@@ -112,7 +113,7 @@ public class PDFService {
     	String path = USER_HOME + PDF_FILES_ROOT + fileName + PDF_FILE_EXT;
         makeDirectories(path);
         Document pdfDocument = getPdfDocument(path, PageSize.A4);
-        
+
     	Style title = new Style();
     	PdfFont font = PdfFontFactory.createFont(FontConstants.HELVETICA_BOLD);
     	title.setFont(font).setFontSize(12); 	
@@ -121,16 +122,15 @@ public class PDFService {
         image.setWidth(180).setHorizontalAlignment(HorizontalAlignment.CENTER);
         pdfDocument.add(image);
         
-        Paragraph currentDate = new Paragraph();
-        currentDate.add(planningController.convertCalendarToString(Calendar.getInstance())).addStyle(title);
-        currentDate.setTextAlignment(TextAlignment.RIGHT);
-        pdfDocument.add(currentDate);
+        Paragraph lineSeparator = new Paragraph("______________________________________________________________________________").addStyle(title);
+        pdfDocument.add(lineSeparator);
         
         Paragraph mainTitle = new Paragraph();
-        mainTitle.add(new Text(main_title)).addStyle(title).setTextAlignment(TextAlignment.CENTER).setFontSize(16);
+        mainTitle.add(new Text(main_title)).addStyle(title).setTextAlignment(TextAlignment.CENTER).setFontSize(16).add("\n");
+        //mainTitle.add(new Text("__________________________________________________________")).addStyle(title);
     	pdfDocument.add(mainTitle);
     	
-        Paragraph client = new Paragraph();
+    	Paragraph client = new Paragraph();
     	client.add(new Text(client_title).addStyle(title));
     	client.add(new Text(booking.getClient().getName() + " " + booking.getClient().getSurname()));
     	pdfDocument.add(client);
@@ -143,15 +143,35 @@ public class PDFService {
     	long totalNights = (booking.getDepartureDate().getTimeInMillis() - booking.getArrivalDate().getTimeInMillis()) / (24 * 60 * 60 * 1000)+1;
         dates.add(new Text(nights_title).addStyle(title));
         dates.add(new Text(totalNights+"")).add("\n");
-        dates.add(new Text(type_title).addStyle(title));
-        dates.add(new Text(booking.getBungalow().getType().getType()));
-    	pdfDocument.add(dates);
-    	
+        pdfDocument.add(dates);
+        
+        Paragraph bungType = new Paragraph();
+        bungType.add(new Text(type_title).addStyle(title));
+        bungType.add(new Text(booking.getBungalow().getType().getType()));
+    	pdfDocument.add(bungType);
+
     	Paragraph price = new Paragraph();
         BigDecimal totalPrice = (booking.getTotalPrice().multiply(new BigDecimal(0.07))).add(booking.getTotalPrice()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
         price.add(new Text(netoPrice_title).addStyle(title)).add(booking.getTotalPrice()+"€").add("\n");
         price.add(new Text(totalPrice_title).addStyle(title)).add(totalPrice+"€");
         pdfDocument.add(price);
+        
+        Table table = new Table(2) ;
+    	Cell leftCell = new Cell();
+    	leftCell.setPaddingTop(10);
+    	leftCell.add(client);
+    	leftCell.add(dates + "\n");
+    	leftCell.add(bungType);
+    	table.addCell(leftCell);
+    	Cell rightCell = new Cell();
+    	rightCell.add(price);
+    	table.addCell(rightCell);
+    	pdfDocument.add(table);
+        
+        Paragraph currentDate = new Paragraph();
+        currentDate.add(planningController.convertCalendarToString(Calendar.getInstance())).addStyle(title);
+        pdfDocument.showTextAligned(currentDate, 500, 70, 1, TextAlignment.LEFT, VerticalAlignment.BOTTOM, 0);
+        
         pdfDocument.close();
     }
 }
