@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,7 +47,7 @@ public class BookingResourceFunctionalTesting {
 	
 	@Test
     public void testCreateBookings() {
-		BookingCreateWrapper bookingCreateWrapper = new BookingCreateWrapper(3, 3, "02/02/2017", "06/02/2017");    	
+		BookingCreateWrapper bookingCreateWrapper = new BookingCreateWrapper(3, 3, "02/02/2017", "06/02/2017", new BigDecimal (0));    	
 		Booking response = new RestBuilder<Booking>(RestService.URL).path(Uris.BOOKINGS).body(bookingCreateWrapper)
 				.post().clazz(Booking.class).basicAuth(token, "").post().build();
 		
@@ -77,7 +78,7 @@ public class BookingResourceFunctionalTesting {
 	@Test
     public void testModifyBookingIncompleteFields() {
 		thrown.expect(new HttpMatcher(HttpStatus.BAD_REQUEST));
-		BookingModifyWrapper booking = new BookingModifyWrapper(2, null, null, null, null);    	
+		BookingModifyWrapper booking = new BookingModifyWrapper(2, null, null, null, null, null);    	
 		new RestBuilder<Booking>(RestService.URL).path(Uris.BOOKINGS).body(booking).put()
 		.clazz(Booking.class).basicAuth(token, "").build();
     }

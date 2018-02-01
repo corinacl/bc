@@ -214,31 +214,31 @@ public class Populate {
 
     	
     	//BOOKING
-    	Booking booking1 = new Booking(bungalow, client4, arrival5, departure5, new BigDecimal(135.00));
+    	Booking booking1 = new Booking(bungalow, client4, arrival5, departure5, new BigDecimal(135.00), new BigDecimal(0));
     	bookingDao.save(booking1);
-    	Booking booking = new Booking(bungalow, client1, arrival, departure, new BigDecimal(267.00));
+    	Booking booking = new Booking(bungalow, client1, arrival, departure, new BigDecimal(267.00), new BigDecimal(0));
     	bookingDao.save(booking);
-    	Booking booking2 = new Booking(bungalow2, client2, arrival2, departure2, new BigDecimal(586.00));
+    	Booking booking2 = new Booking(bungalow2, client2, arrival2, departure2, new BigDecimal(586.00), new BigDecimal(150.00));
     	bookingDao.save(booking2);
-    	Booking booking3 = new Booking(bungalow12, client3, arrival3, departure3, new BigDecimal(85.00));
+    	Booking booking3 = new Booking(bungalow12, client3, arrival3, departure3, new BigDecimal(85.00), new BigDecimal(0));
     	bookingDao.save(booking3);
-    	Booking booking4 = new Booking(bungalow16, client2, arrival2, departure5, new BigDecimal(185.00));
+    	Booking booking4 = new Booking(bungalow16, client2, arrival2, departure5, new BigDecimal(185.00), new BigDecimal(0));
     	bookingDao.save(booking4);
-    	Booking booking5 = new Booking(bungalow6, client3, arrival, departure2, new BigDecimal(95.00));
+    	Booking booking5 = new Booking(bungalow6, client3, arrival, departure2, new BigDecimal(95.00), new BigDecimal(0));
     	bookingDao.save(booking5);
-    	Booking booking6 = new Booking(bungalow8, client2, arrival4, departure3, new BigDecimal(555.00));
+    	Booking booking6 = new Booking(bungalow8, client2, arrival4, departure3, new BigDecimal(555.00), new BigDecimal(200.00));
     	bookingDao.save(booking6);
-    	Booking booking7 = new Booking(bungalow, client2, arrival3, departure3, new BigDecimal(125.00));
+    	Booking booking7 = new Booking(bungalow, client2, arrival3, departure3, new BigDecimal(125.00), new BigDecimal(0));
     	bookingDao.save(booking7);
-    	Booking booking8 = new Booking(bungalow3, client2, arrival4, departure4, new BigDecimal(85.00));
+    	Booking booking8 = new Booking(bungalow3, client2, arrival4, departure4, new BigDecimal(85.00), new BigDecimal(25.00));
     	bookingDao.save(booking8);
-    	Booking booking9 = new Booking(bungalow3, client4, arrival6, departure6, new BigDecimal(85.00));
+    	Booking booking9 = new Booking(bungalow3, client4, arrival6, departure6, new BigDecimal(85.00), new BigDecimal(0));
     	bookingDao.save(booking9);
-    	Booking booking10 = new Booking(bungalow19, client2, arrival3, departure3, new BigDecimal(125.00));
+    	Booking booking10 = new Booking(bungalow19, client2, arrival3, departure3, new BigDecimal(125.00), new BigDecimal(0));
     	bookingDao.save(booking10);
-    	Booking booking11 = new Booking(bungalow17, client2, arrival4, departure4, new BigDecimal(85.00));
+    	Booking booking11 = new Booking(bungalow17, client2, arrival4, departure4, new BigDecimal(320.00), new BigDecimal(105.00));
     	bookingDao.save(booking11);
-    	Booking booking12 = new Booking(bungalow14, client4, arrival6, departure6, new BigDecimal(85.00));
+    	Booking booking12 = new Booking(bungalow14, client4, arrival6, departure6, new BigDecimal(185.00), new BigDecimal(50.00));
     	bookingDao.save(booking12);
     }
 

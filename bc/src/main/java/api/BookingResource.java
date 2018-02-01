@@ -34,13 +34,7 @@ public class BookingResource {
 	public void setBookingController(BookingController bookingController){
 		this.bookingController = bookingController;
 	}
-	
-	/*@RequestMapping(method = RequestMethod.GET)
-	public List<Booking> listBookings(){
-		return bookingController.getAll();
-	}
-	*/
-	
+		
 	@RequestMapping(method = RequestMethod.GET)
 	public Page<Booking> listBookings(Pageable pageable){
 		return bookingController.getAll(pageable);

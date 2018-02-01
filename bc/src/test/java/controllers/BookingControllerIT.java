@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.math.BigDecimal;
 import api.exceptions.IncompleteBookingException;
 import config.PersistenceConfig;
 import config.TestsControllerConfig;
@@ -49,7 +50,7 @@ public class BookingControllerIT {
     
     @Test
     public void testCreateBooking() throws IncompleteBookingException {
-    	BookingCreateWrapper bookingCreateWrapper = new BookingCreateWrapper(2, 2, "02/02/2017", "06/02/2017");
+    	BookingCreateWrapper bookingCreateWrapper = new BookingCreateWrapper(2, 2, "02/02/2017", "06/02/2017", new BigDecimal (0));
     	Booking newBooking = bookingController.createBooking(bookingCreateWrapper);
     	assertEquals(11, bookingController.getAll().size());
     	bookingDao.delete(newBooking);

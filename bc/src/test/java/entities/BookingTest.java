@@ -19,7 +19,7 @@ public class BookingTest {
 	public void testBooking() {
 		Calendar date = Calendar.getInstance();
 		BigDecimal totalPrice = new BigDecimal (135);
-		Booking booking = new Booking(bungalow, client, date, date, totalPrice);
+		Booking booking = new Booking(bungalow, client, date, date, totalPrice, totalPrice);
 		Assert.assertEquals(booking.getClient(), client);
 		Assert.assertEquals(booking.getTotalPrice(), totalPrice);
 	}

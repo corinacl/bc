@@ -1,5 +1,7 @@
 package wrappers;
 
+import java.math.BigDecimal;
+
 public class BookingCreateWrapper {
 	
 	private int idCliente;
@@ -10,14 +12,17 @@ public class BookingCreateWrapper {
 	
 	private String departure;
 	
+	private BigDecimal deposit;
+	
 	public BookingCreateWrapper() {
 	}
 
-	public BookingCreateWrapper(int idCliente, int idBungalow, String arrival, String departure) {
+	public BookingCreateWrapper(int idCliente, int idBungalow, String arrival, String departure, BigDecimal deposit) {
 		this.idCliente = idCliente;
 		this.idBungalow = idBungalow;
 		this.arrival = arrival;
 		this.departure = departure;
+		this.deposit = deposit;
 	}
 
 	public int getIdCliente() {
@@ -52,9 +57,17 @@ public class BookingCreateWrapper {
 		this.departure = departure;
 	}
 
-	@Override
-	public String toString() {
-		return "BookingCreateWrapper [bungalow=" + idBungalow + ", idcliente=" + idCliente + ", arrival=" + arrival
-				+ ", departure=" + departure + "]";
-	}
+	public BigDecimal getDeposit() {
+        return deposit;
+    }
+
+    public void setDeposit(BigDecimal deposit) {
+        this.deposit = deposit;
+    }
+
+    @Override
+    public String toString() {
+        return "BookingCreateWrapper [idCliente=" + idCliente + ", idBungalow=" + idBungalow + ", arrival=" + arrival + ", departure="
+                + departure + ", deposit=" + deposit + "]";
+    }
 }

@@ -1,5 +1,7 @@
 package wrappers;
 
+import java.math.BigDecimal;
+
 import entities.Bungalow;
 import entities.Client;
 
@@ -15,16 +17,19 @@ public class BookingModifyWrapper {
 	
 	private int id;
 	
+	private BigDecimal deposit;
+	
 	public BookingModifyWrapper() {
 	
 	}
 
-	public BookingModifyWrapper(int id, Bungalow bungalow, Client client, String arrival, String departure) {
+	public BookingModifyWrapper(int id, Bungalow bungalow, Client client, String arrival, String departure, BigDecimal deposit) {
 		this.id = id;
 		this.bungalow = bungalow;
 		this.client = client;
 		this.arrival = arrival;
 		this.departure = departure;
+		this.deposit = deposit;
 	}
 	
 	public Client getClient() {
@@ -67,9 +72,17 @@ public class BookingModifyWrapper {
 		this.departure = departure;
 	}
 
-	@Override
-	public String toString() {
-		return "BookingCreateWrapper [id=" + id + ", bungalow=" + bungalow + ", client=" + client + ", arrival=" + arrival
-				+ ", departure=" + departure + "]";
-	}
+	public BigDecimal getDeposit() {
+        return deposit;
+    }
+
+    public void setDeposit(BigDecimal deposit) {
+        this.deposit = deposit;
+    }
+
+    @Override
+    public String toString() {
+        return "BookingModifyWrapper [bungalow=" + bungalow + ", client=" + client + ", arrival=" + arrival + ", departure=" + departure
+                + ", id=" + id + ", deposit=" + deposit + "]";
+    }
 }

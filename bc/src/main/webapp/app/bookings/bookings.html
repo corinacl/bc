@@ -68,8 +68,8 @@
 				                            </th>
 				                            <th>Precio neto</th>
 				                            <th>Precio IGIC</th>
+				                            <th>Dep�sito</th>
 				                            <th></th>
-	         
 	                                    </tr>
 	                                </thead>
 	                                <tbody>
@@ -78,8 +78,9 @@
 	                                        <td>{{resBooking.client.name}} {{resBooking.client.surname}}</td>
 	                                        <td>{{resBooking.arrivalDate | date:'dd/MM/yyyy' }}</td>
 	                                        <td>{{resBooking.departureDate | date:'dd/MM/yyyy' }}</td>
-	                                        <td>{{resBooking.totalPrice | number}}</td>
-	                                        <td>{{(resBooking.totalPrice * 0.07) + resBooking.totalPrice | number: 2 }}</td>
+	                                        <td>{{resBooking.totalPrice | number}}€</td>
+	                                        <td>{{(resBooking.totalPrice * 0.07) + resBooking.totalPrice | number: 2 }}€</td>
+	                                        <td>{{resBooking.deposit | number}}€</td>
 	                                        <td>
 				                                <a ng-if="resBooking.departureDate > vm.currentDate" class="btn btn-primary btn-xs" ng-href="#bookings/modify/{{resBooking.id}}">Modificar</a>
 				                                <a ng-if="resBooking.departureDate > vm.currentDate" class="btn btn-danger btn-xs" ng-click="vm.booking_id = resBooking.id; vm.booking2=resBooking;" data-toggle="modal" data-target="#cancelarModal">
@@ -118,6 +119,7 @@
 						        <span ng-show="vm.pageInfo.sortParameter === 'departureDate' && vm.pageInfo.reverse == 'asc'" class="glyphicon glyphicon-triangle-top text-primary"></span></th>
                             <th>Precio neto</th>
                             <th>Precio IGIC</th>
+                            <th>Dep�sito</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -130,6 +132,7 @@
                             <td>{{booking.departureDate | date:'dd/MM/yyyy' }}</td>
                             <td>{{booking.totalPrice | number}}€</td>
                             <td>{{(booking.totalPrice * 0.07) + booking.totalPrice | number: 2 }}€</td>
+                            <td>{{booking.deposit | number}}€</td>
                             <td>
                                 <a ng-if="booking.departureDate > vm.currentDate" class="btn btn-primary btn-sm" ng-href="#bookings/modify/{{booking.id}}">Modificar</a>
                                 <a ng-if="booking.departureDate > vm.currentDate" class="btn btn-danger btn-sm" ng-click="vm.booking_id = booking.id; vm.booking2=booking;" data-toggle="modal" data-target="#cancelarModal">

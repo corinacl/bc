@@ -11,6 +11,7 @@ bc.controller('ModifyBookingController', [ '$timeout', 'Alertify', 'BookingsServ
 		vm.checkDatesModify = checkDatesModify;
 		vm.arrival; 
 		vm.departure;
+		vm.deposit;
 
 
 		function getBookingById() {
@@ -19,6 +20,7 @@ bc.controller('ModifyBookingController', [ '$timeout', 'Alertify', 'BookingsServ
 				vm.booking = result;
 				vm.arrival = vm.booking.arrival;
 				vm.departure = vm.booking.departure;
+				vm.deposit = vm.booking.deposit;
 				vm.booking.idclient = vm.booking.client.id;
 				vm.booking.idbungalow = vm.booking.bungalow.id;
 			}, function(errors) {
@@ -27,7 +29,7 @@ bc.controller('ModifyBookingController', [ '$timeout', 'Alertify', 'BookingsServ
 		}
 	
 		function modifyBooking() {
-			BookingsService.modifyBooking(vm.booking, vm.arrival, vm.departure).then(function(result) {
+			BookingsService.modifyBooking(vm.booking, vm.arrival, vm.departure, vm.deposit).then(function(result) {
 				vm.completed = true;
 				vm.booking = {};
 		        Alertify.success("¡La reserva ha sido modificada con éxito!");

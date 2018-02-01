@@ -211,13 +211,19 @@ public class BookingController {
 	public Booking createBooking(BookingCreateWrapper bookingCreateWrapper) throws IncompleteBookingException { //Create a booking
 		Bungalow bungalow = bungalowDao.findOne(bookingCreateWrapper.getIdBungalow());
 		Client client = clientDao.findOne(bookingCreateWrapper.getIdCliente());
+		BigDecimal deposit = new BigDecimal(0);
+		
+		if(bookingCreateWrapper.getDeposit() != null){
+		    deposit = bookingCreateWrapper.getDeposit();
+		}
 		
 		if((bungalow==null) || (bookingCreateWrapper.getArrival() == null) || (bookingCreateWrapper.getDeparture() == null) || (client==null)){
 			throw new IncompleteBookingException();
 		}else{
 			Booking booking = new Booking (bungalow, client, createArrivalDate(bookingCreateWrapper.getArrival()), 
 					createDepartureDate(bookingCreateWrapper.getDeparture()), 
-					calculateTotalPrice(bookingCreateWrapper.getArrival(), bookingCreateWrapper.getDeparture(), bookingCreateWrapper.getIdBungalow(), client));
+					calculateTotalPrice(bookingCreateWrapper.getArrival(), bookingCreateWrapper.getDeparture(), bookingCreateWrapper.getIdBungalow(), client),
+					deposit);
 	
 			return bookingDao.save(booking);
 		}
@@ -233,7 +239,7 @@ public class BookingController {
 				+ "/" + String.valueOf(b.getDepartureDate().get(Calendar.MONTH)+1)
 				+ "/" + String.valueOf(b.getDepartureDate().get(Calendar.YEAR));
 		
-		BookingModifyWrapper booking = new BookingModifyWrapper(b.getId(), b.getBungalow(), b.getClient(), arrival, departure);
+		BookingModifyWrapper booking = new BookingModifyWrapper(b.getId(), b.getBungalow(), b.getClient(), arrival, departure, b.getDeposit());
 		
 		return booking;
 	}
@@ -243,7 +249,7 @@ public class BookingController {
 		Bungalow bungalow = bungalowDao.findOne(bookingSaveModifiedWrapper.getIdBungalow());
 		Client client = clientDao.findOne(bookingSaveModifiedWrapper.getIdClient());
 		
-		if((bungalow==null) || (bookingSaveModifiedWrapper.getArrival() == null) || (bookingSaveModifiedWrapper.getDeparture() == null)){
+		if((bungalow==null) || (bookingSaveModifiedWrapper.getDeposit() == null)|| (bookingSaveModifiedWrapper.getArrival() == null) || (bookingSaveModifiedWrapper.getDeparture() == null)){
 			throw new IncompleteBookingException();
 		}else{
 			booking.setBungalow(bungalow);
@@ -251,6 +257,7 @@ public class BookingController {
 			booking.setArrivalDate(createArrivalDate(bookingSaveModifiedWrapper.getArrival()));
 			booking.setDepartureDate(createDepartureDate(bookingSaveModifiedWrapper.getDeparture()));
 			booking.setTotalPrice(calculateTotalPrice(bookingSaveModifiedWrapper.getArrival(), bookingSaveModifiedWrapper.getDeparture(), bookingSaveModifiedWrapper.getIdBungalow(), client));
+			booking.setDeposit(bookingSaveModifiedWrapper.getDeposit());
 			
 			this.bookingDao.save(booking); 
 		}

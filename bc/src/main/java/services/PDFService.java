@@ -37,7 +37,7 @@ public class PDFService {
     private final static String PDF_FILES_ROOT = "/tpv/pdfs/";
     private final static String PDF_FILE_EXT = ".pdf";
     private PlanningController planningController;
-    private String client_title, nights_title, arrival_title, departure_title, totalPrice_title, netoPrice_title, main_title, type_title;
+    private String client_title, nights_title, arrival_title, departure_title, totalPrice_title, netoPrice_title, main_title, type_title, deposit_title, stillToPay_title;
     
     @Autowired
 	public void setPlanningController(PlanningController planningController) {
@@ -80,6 +80,8 @@ public class PDFService {
 	     		netoPrice_title = "Precio neto: ";
 	     		main_title = "CONFIRMACIÓN DE RESERVA"; 
 	     		type_title = "Bungalow Tipo ";
+	     		deposit_title = "Depósito: ";
+	     		stillToPay_title = "Por pagar: ";
 	     		break;
 	     	case "eng":
 	     		client_title = "Client: ";
@@ -90,6 +92,8 @@ public class PDFService {
 	     		netoPrice_title = "Price (w/out taxes): ";
 	     		main_title = "BOOKING CONFIRMATION"; 
 	     		type_title = "Bungalow Type ";
+	     		deposit_title = "Deposit: ";
+	     		stillToPay_title = "Still: ";
 	     		break;
 	     	case "deu":
 	     		client_title = "Klient: ";
@@ -100,6 +104,8 @@ public class PDFService {
 	     		netoPrice_title = "Preise (w/out taxes): ";
 	     		main_title = "RESERVIERUNGSBESTÄTIGUNG"; 
 	     		type_title = "Bungalow Typ ";
+	     		deposit_title = "Anzahlung: ";
+	     		stillToPay_title = "Por pagar: ";
 	     		break;
 	 		default:
 	 			break;
@@ -144,13 +150,18 @@ public class PDFService {
         
         Paragraph bungType = new Paragraph();
         bungType.add(new Text(type_title).addStyle(title));
-        bungType.add(new Text(booking.getBungalow().getType().getType()));
+        bungType.add(new Text(booking.getBungalow().getType().getType())).add(new Text("-"+booking.getBungalow().getNumber()));
 
     	Paragraph price = new Paragraph();
         BigDecimal totalPrice = (booking.getTotalPrice().multiply(new BigDecimal(0.07))).add(booking.getTotalPrice()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
+        BigDecimal stillToPay = totalPrice.subtract(booking.getDeposit());
         price.add(new Text(netoPrice_title).addStyle(title)).add(booking.getTotalPrice()+"€").add("\n");
-        price.add(new Text(totalPrice_title).addStyle(title)).add(totalPrice+"€");
+        price.add(new Text(totalPrice_title).addStyle(title)).add(totalPrice+"€").add("\n");
+        price.add(new Text(deposit_title).addStyle(title)).add(booking.getDeposit()+"€").add("\n\n");
+        price.add(new Text(stillToPay_title).addStyle(title)).add(stillToPay+"€");
         
+        
+        @SuppressWarnings("deprecation")
         Table table = new Table(2).setMarginTop(20);
     	Cell leftCell = new Cell().setPadding(10);
     	leftCell.add(client).add("\n").add(dates).add("\n").add(bungType);

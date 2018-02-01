@@ -31,15 +31,18 @@ public class Booking {
 	
 	private BigDecimal totalPrice;
 	
+	private BigDecimal deposit;
+	
 	public Booking (){
 	}
 		
-	public Booking (Bungalow bungalow, Client client, Calendar arrivalDate, Calendar departureDate, BigDecimal totalPrice) {
+	public Booking (Bungalow bungalow, Client client, Calendar arrivalDate, Calendar departureDate, BigDecimal totalPrice, BigDecimal deposit) {
 		this.bungalow = bungalow;
 		this.client = client;
 		this.arrivalDate = arrivalDate;
 		this.departureDate = departureDate;
 		this.totalPrice = totalPrice;
+		this.deposit = deposit;
 	}
 	
 	public int getId(){
@@ -86,7 +89,15 @@ public class Booking {
 		this.totalPrice = totalPrice;
 	}
 
-	@Override
+	public BigDecimal getDeposit() {
+        return deposit;
+    }
+
+    public void setDeposit(BigDecimal deposit) {
+        this.deposit = deposit;
+    }
+
+    @Override
     public int hashCode() {
         return id;
     }
@@ -106,9 +117,9 @@ public class Booking {
     }
 
 	@Override
-	public String toString() {
-		return "Booking [id=" + id + ", bungalow=" + bungalow + ", client=" + client + ", arrivalDate=" + arrivalDate
-				+ ", departureDate=" + departureDate + ", totalPrice=" + totalPrice + "]";
-	}
+    public String toString() {
+        return "Booking [id=" + id + ", bungalow=" + bungalow + ", client=" + client + ", arrivalDate=" + arrivalDate + ", departureDate="
+                + departureDate + ", totalPrice=" + totalPrice + ", deposit=" + deposit + "]";
+    }
 
 }

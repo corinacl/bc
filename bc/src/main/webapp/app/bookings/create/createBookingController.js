@@ -10,9 +10,10 @@ bc.controller('CreateBookingController', [ '$timeout', 'Alertify', 'BookingsServ
 		vm.checkDates = checkDates;
 		vm.arrival;
 		vm.departure;
+		vm.deposit;
 
 		function createBooking() {
-			BookingsService.createBooking(vm.booking, vm.arrival, vm.departure).then(function(result) {
+			BookingsService.createBooking(vm.booking, vm.arrival, vm.departure, vm.deposit).then(function(result) {
 				Alertify.success("¡La reserva ha sido creada con éxito!");
 				$location.path('/bookings');
 			}, function error(errors){

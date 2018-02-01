@@ -46,7 +46,7 @@ bc.service('BookingsService', ['$http', '$q', function ($http, $q) {
 		  return this.request(config);
 	  }
    
-   this.createBooking = function (booking, arrival, departure){
+   this.createBooking = function (booking, arrival, departure, deposit){
 	   let config = {
 			   method: 'POST',
 			   url: urlBase+"/bookings",
@@ -54,13 +54,14 @@ bc.service('BookingsService', ['$http', '$q', function ($http, $q) {
 				   'idCliente': booking.idcliente,
 				   'idBungalow': booking.idbungalow,
 				   'arrival': arrival, 
-				   'departure': departure
+				   'departure': departure,
+				   'deposit': deposit
 			   }
 	   };
 	  return this.request(config);
    }
    
-   this.modifyBooking = function (booking, arrival, departure) {
+   this.modifyBooking = function (booking, arrival, departure, deposit) {
    	let config = {
 			   method: 'PUT',
 			   url: urlBase+"/bookings",
@@ -69,7 +70,8 @@ bc.service('BookingsService', ['$http', '$q', function ($http, $q) {
 				   'idClient': booking.idclient,
 				   'idBungalow': booking.idbungalow,
 				   'arrival': arrival, 
-				   'departure': departure 
+				   'departure': departure,  
+				   'deposit': deposit
 			   }
 	   };
 		  return this.request(config);
