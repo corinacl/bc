@@ -127,13 +127,11 @@ public class PDFService {
         
         Paragraph mainTitle = new Paragraph();
         mainTitle.add(new Text(main_title)).addStyle(title).setTextAlignment(TextAlignment.CENTER).setFontSize(16).add("\n");
-        //mainTitle.add(new Text("__________________________________________________________")).addStyle(title);
     	pdfDocument.add(mainTitle);
     	
     	Paragraph client = new Paragraph();
     	client.add(new Text(client_title).addStyle(title));
     	client.add(new Text(booking.getClient().getName() + " " + booking.getClient().getSurname()));
-    	pdfDocument.add(client);
     	
     	Paragraph dates = new Paragraph();
     	dates.add(new Text(arrival_title).addStyle(title));
@@ -143,29 +141,22 @@ public class PDFService {
     	long totalNights = (booking.getDepartureDate().getTimeInMillis() - booking.getArrivalDate().getTimeInMillis()) / (24 * 60 * 60 * 1000)+1;
         dates.add(new Text(nights_title).addStyle(title));
         dates.add(new Text(totalNights+"")).add("\n");
-        pdfDocument.add(dates);
         
         Paragraph bungType = new Paragraph();
         bungType.add(new Text(type_title).addStyle(title));
         bungType.add(new Text(booking.getBungalow().getType().getType()));
-    	pdfDocument.add(bungType);
 
     	Paragraph price = new Paragraph();
         BigDecimal totalPrice = (booking.getTotalPrice().multiply(new BigDecimal(0.07))).add(booking.getTotalPrice()).setScale(2, BigDecimal.ROUND_HALF_EVEN);
         price.add(new Text(netoPrice_title).addStyle(title)).add(booking.getTotalPrice()+"€").add("\n");
         price.add(new Text(totalPrice_title).addStyle(title)).add(totalPrice+"€");
-        pdfDocument.add(price);
         
-        Table table = new Table(2) ;
-    	Cell leftCell = new Cell();
-    	leftCell.setPaddingTop(10);
-    	leftCell.add(client);
-    	leftCell.add(dates + "\n");
-    	leftCell.add(bungType);
-    	table.addCell(leftCell);
-    	Cell rightCell = new Cell();
+        Table table = new Table(2).setMarginTop(20);
+    	Cell leftCell = new Cell().setPadding(10);
+    	leftCell.add(client).add("\n").add(dates).add("\n").add(bungType);
+    	Cell rightCell = new Cell().setPadding(10);
     	rightCell.add(price);
-    	table.addCell(rightCell);
+    	table.addCell(leftCell).addCell(rightCell);
     	pdfDocument.add(table);
         
         Paragraph currentDate = new Paragraph();
