@@ -6,7 +6,7 @@ import entities.Role;
 
 public class RestService {
 
-    public static final String URL = "http://localhost:8080/manager/api";
+    public static final String URL = "http://localhost:8080/plan/api";
 
     public void populate() {
         new RestBuilder<TokenWrapper>(RestService.URL).path(Uris.ADMINS).basicAuth(this.loginAdmin(), "").post().build();

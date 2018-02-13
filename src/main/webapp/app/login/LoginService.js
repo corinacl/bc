@@ -1,7 +1,7 @@
 bc.service('LoginService', ['$http', '$q', function ($http, $q) {
    "use strict";
    
-   const urlBase="http://localhost:8080/manager/api";
+   const urlBase="http://localhost:8080/plan/api";
    
    this.request = function(config) {
 	      let deferred = $q.defer();
