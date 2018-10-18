@@ -30,10 +30,10 @@
 		<junit.version>4.11</junit.version>
 		<!-- Web. Api Rest; security -->
 		<javax.servlet.api.version>3.0.1</javax.servlet.api.version>
-		<spring.version>4.2.1.RELEASE</spring.version>
+		<spring.version>4.3.18.RELEASE</spring.version>
 		<spring.security.version>4.0.1.RELEASE</spring.security.version>
 		<!-- Api Rest. JSON -->
-		<jackson.databind.version>2.5.3</jackson.databind.version>
+		<jackson.databind.version>2.8.11.1</jackson.databind.version>
 		<!-- EMail -->
 		<javax.mail.version>1.4.3</javax.mail.version>
 		<!-- Data Base -->
