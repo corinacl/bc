@@ -33,7 +33,7 @@
 		<spring.version>4.3.18.RELEASE</spring.version>
 		<spring.security.version>4.0.1.RELEASE</spring.security.version>
 		<!-- Api Rest. JSON -->
-		<jackson.databind.version>2.8.11.1</jackson.databind.version>
+		<jackson.databind.version>2.8.11</jackson.databind.version>
 		<!-- EMail -->
 		<javax.mail.version>1.4.3</javax.mail.version>
 		<!-- Data Base -->
